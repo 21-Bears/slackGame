@@ -14,7 +14,7 @@ app.post('/api/*', (req,res) => {
 });
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile(__dirname+"/public/html/index.html");
+  res.status(200).sendFile("../public/html/index.html");
 });
 
 module.exports = app;
