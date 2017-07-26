@@ -2,6 +2,7 @@
 "use strict";
 const express = require('express');
 const port = process.env.PORT || 3000;
+const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 
@@ -14,7 +15,7 @@ app.post('/api/*', (req,res) => {
 });
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile("../public/html/index.html");
+  res.status(200).sendFile( path.join( __dirname, '..', 'public', 'index.html' ) );
 });
 
 module.exports = app;
