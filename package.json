@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/21-Bears/slackGame/issues"
   },
-  "homepage": "https://github.com/21-Bears/slackGame#readme"
+  "homepage": "https://github.com/21-Bears/slackGame#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3"
+  }
 }
