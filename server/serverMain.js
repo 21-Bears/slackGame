@@ -15,7 +15,11 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.post('/api/*', (req,res) => {
   console.log(req.body);
-  res.status(200).send(req.body);
+  let out = {
+    "text" : "This test was *GOOD*",
+    "mrkdwn": true
+  }
+  res.status(200).send(out);
 });
 
 app.get('/', (req, res) => {
