@@ -19,6 +19,9 @@ app.post('/api/*', (req,res) => {
     "text" : "This test was *GOOD*",
     "mrkdwn": true
   }
+  if( req.body.text ){
+    out.text += " - Recived : "+req.body.text;
+  }
   res.status(200).send(out);
 });
 
