@@ -21,7 +21,7 @@ app.post('/api/*', (req,res) => {
     "attachments": [
         {
           "color": "#36a64f",
-          "image_url":path.join(__dirname, '..', 'public/assets/sampleBoard3.png')
+          "image_url": "https://bears21.herokuapp.com/public/assets/sampleBoard3.png"
         }]
   }
   if( req.body.text ){
