@@ -17,7 +17,11 @@ app.post('/api/*', (req,res) => {
   console.log(req.body);
   let out = {
     "text" : "This test was *GOOD*",
-    "mrkdwn": true
+    "mrkdwn": true,
+    "attachments": [
+        {
+          "image_url":path.join(__dirname, '..', 'public/assets/sampleBBoard3.png')
+        }
   }
   if( req.body.text ){
     out.text += " - Recived : "+req.body.text;
