@@ -21,7 +21,7 @@ app.post('/api/*', (req,res) => {
     "attachments": [
         {
           "image_url":path.join(__dirname, '..', 'public/assets/sampleBBoard3.png')
-        }
+        }]
   }
   if( req.body.text ){
     out.text += " - Recived : "+req.body.text;
