@@ -21,7 +21,8 @@ app.post('/api/*', (req,res) => {
     "attachments": [
         {
           "color": "#36a64f",
-          "image_url": "https://bears21.herokuapp.com/public/assets/sampleBoard3.png"
+          "text": "Attachment text",
+          "image_url": req.protocol + '://' + req.get('host') + '/assets/sampleBoard3.png' //"https://bears21.herokuapp.com/public/assets/sampleBoard3.png"
         }]
   }
   if( req.body.text ){
