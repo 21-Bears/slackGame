@@ -20,7 +20,8 @@ app.post('/api/*', (req,res) => {
     "mrkdwn": true,
     "attachments": [
         {
-          "image_url":path.join(__dirname, '..', 'public/assets/sampleBBoard3.png')
+          "color": "#36a64f",
+          "image_url":path.join(__dirname, '..', 'public/assets/sampleBoard3.png')
         }]
   }
   if( req.body.text ){
