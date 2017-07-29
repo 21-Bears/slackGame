@@ -1,4 +1,4 @@
-//Server's main code..
+ //Server's main code..
 "use strict";
 const express = require('express');
 const port = process.env.PORT || 3000;
@@ -13,10 +13,28 @@ app.use(bodyParser.urlencoded({
 //This is used for css and asset files
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+app.post('/api/test', (req,res) => {
+  console.log(req.body);
+  let out = {
+    "text" : "This test was a *TESTING* test",
+    "mrkdwn": true,
+    "attachments": [
+        {
+          "color": "#36a64f",
+          "text": "Attachment text",
+          "image_url": req.protocol + '://' + req.get('host') + '/assets/sampleBoard3.png' //"https://bears21.herokuapp.com/public/assets/sampleBoard3.png"
+        }]
+  }
+  if( req.body.text ){
+    out.text += " - Recived : "+req.body.text;
+  }
+  res.status(200).send(out);
+});
+
 app.post('/api/*', (req,res) => {
   console.log(req.body);
   let out = {
-    "text" : "This test was *GOOD*",
+    "text" : "This test was *GOOD* test",
     "mrkdwn": true,
     "attachments": [
         {
