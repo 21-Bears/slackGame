@@ -5,15 +5,109 @@
      <meta charset="UTF-8">
      <title>TITLE</title>
      <meta name="description" content="DESCRIPTION">
-    <link rel="stylesheet" href="PATH">
 
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+
      <!--[if lt IE 9]>
        <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
      <![endif]-->
  </head>
 
  <body>
+   <div class="jumbotron jumbotron-fluid hero">
+  <div class="container">
+
+    <div class = "hero-content">
+    <h1 class="display-3">SlackGame Bot</h1>
+    <p class="command-text">Need a diversion from the normal slack conversation? <br/>Want to get your competitive juices flowing?</p>
+    <p class="command-text">With SlackGame bot you can.</p>
+    <p class="command-text">Play an exciting turn-based strategy against another slack team member.</p>
+    <a href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=158522499188.217829987060"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+  </div>
+</div>
+</div>
+  <div class = "container">
+
+<div class = "screenshot-container">
+
+<img src = "http://lion-bot.herokuapp.com/img/screenshot.png">
+</div>
+</div>
+<div class="command-container container-fluid">
+  <div class="container">
+
+  <h1>Basic Commands</h1>
+  <p class="command-text"><code>/COMMAND play</code> <i> start or join a game</i></p>
+  <div class = "screenshot-container">
+
+<img src = "/slackCommandExample.png"/>
+  </div>
+ <p class="command-text"><code>/COMMAND help</code> <i>get some help</i></p>
+
+
+<hr/>
+<div class="how-to-play">
+
+  <h1>Movement Commands</h1>
+
+  <p class="command-text"><code>/COMMAND move-left</code> <i> move one space to the left</i></p>
+  <p class="command-text"><code>/COMMAND move-left-2</code> <i> move two spaces to the left</i></p>
+
+
+
+  <p class="command-text"><code>/COMMAND move-right</code> <i>move one space to the right</i></p>
+ <p class="command-text"><code>/COMMAND move-right-2</code> <i>move two spaces to the right</i></p>
+
+ <hr/>
+
+ <h1>Attack Commands</h1>
+ <div class = "command-col">
+  <div class = "command-item">
+ <p class="command-text"><code>/COMMAND attackA</code> <i> attack tile directly across from you</i></p>
+ <img src = "/attackA.png"/>
+
+</div>
+
+<div class = "command-item">
+
+  <div class = "lead">
+ <code>/COMMAND attackB</code>
+  <p>attack the tile five spaces left and right from your location</p>
+</div>
+ <img src = "/attackB.png"/>
+
+</div>
+
+ </div>
+
+ <div class = "command-col">
+  <div class = "command-item">
+ <p class="command-text"><code>/COMMAND attackC</code> <i> attack the tile four spaces left and right from your location</i></p>
+ <img src = "/attackC.png"/>
+
+</div>
+
+<div class = "command-item">
+
+
+ <p class="command-text"><code>/COMMAND attackD</code> <i> attack the tile directly on your left and right</i></p>
+ <img src = "/attackD.png"/>
+
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+<footer>
+  <div class = "container">
+  <img class = "footer-logo" src = "tempLogo.ico"/>
+  <span>Slack-Game made by <a href = "https://github.com/21-Bears">21 Bears</a> </span>
+</div>
+</footer>
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
  </body>

@@ -1,0 +1,98 @@
+/*Hero Background color - #C2D3CD */
+
+.hero {
+position: relative;
+
+  color: white;
+  background-color: #AFBFC0;
+  border-bottom: 2px solid #1D1E18;
+
+}
+
+.hero::after {
+  content: "";
+  background-image: url("/tempLogo.ico");
+  opacity: 0.5;
+  background-size: contain;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+}
+
+.how-to-play {
+
+}
+
+.command-col {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+}
+
+.command-item {
+  display: flex;
+  border: 2px solid #1D1E18;
+  background-color: white;
+  border-radius: 5px;
+  padding:2px;
+  margin:5px;
+  width: 400px;
+  justify-content: center;
+
+}
+
+.command-container {
+  border-top: 2px solid #1D1E18;
+
+  background-color: #AFBFC0;
+  padding-bottom: 15px;
+}
+
+.command-text {
+  font-size: 1.5rem;
+
+}
+
+.screenshot-container {
+  margin: 5px 0px 5px 0px;
+}
+
+
+footer {
+  display: flex;
+  padding-top: 1em;
+padding-bottom: 1em;
+color: #fafafa;
+font-size: 1em;
+background-color: #1D1E18;
+}
+
+.footer-logo {
+  width:30px;
+  height: 30px;
+}
+
+.container {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+code {
+  color:#1D1E18;
+  font-weight: 400;
+border-radius: 4px;
+background-color: #FFF;
+border: 1px solid rgba(0, 0, 0, 0.1);
+display: inline-block;
+font-size: 15px;
+padding: .05em .1em .1em;
+}
