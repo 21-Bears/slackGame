@@ -2,7 +2,8 @@
 
 var exports = module.exports = {};
 
-exports.GameObj = function( playerID ){
+exports.GameObj = function( playerID, gameID ){
+  this.id = gameID;
   this.players = [ playerID ];
   this.ply1Turn = true; //if ply1Turn then it's this.players[0] turn
   this.menuState = "waiting";
