@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
-//const gameObject = require('./gameObj');
+const GameData = require('./gameEngine');
 const { createMessageAdapter } = require('@slack/interactive-messages');
 
 // Initialize using verification token from environment variables
-const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN ||'7AAmedaFMWoyhXzzhre0kUqM');
+const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN ||'AH4knYuu3IfcuMKzdrXQzbfE');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -15,7 +15,8 @@ app.post('/',(req,res)=>{
 let slackData = { user_name: req.body.user_name,
               user_id: req.body.user_id,
               ref_url: req.body.response_url};
-              
+
+GameData.runData(slackData);
 res.status(200).send();	
 });
 
