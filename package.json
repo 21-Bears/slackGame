@@ -20,6 +20,6 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "lodash": "^4.17.4"
+    "request": "^2.81.0"
   }
 }
