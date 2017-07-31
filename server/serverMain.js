@@ -4,7 +4,7 @@ const http = require('http');
 const { createMessageAdapter } = require('@slack/interactive-messages');
 
 // Initialize using verification token from environment variables
-const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN ||'7AAmedaFMWoyhXzzhre0kUqM');
+const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN ||'AH4knYuu3IfcuMKzdrXQzbfE');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
