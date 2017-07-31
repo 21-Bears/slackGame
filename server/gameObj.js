@@ -14,6 +14,60 @@ exports.GameObj = function( playerID, gameID ){
   };
 }
 
+GameObj.prototype.runAttack = function( type ) {
+  let curPos =this.playerData.loc[0], curPlayer = 0, opp = 1;
+  if( !this.ply1Turn ){ curPos = this.playerData.loc[1]; curPlayer = 1; opp = 0; }
+  let targetA = -1, targetB = -1;
+  switch(type){
+    case "A":
+      targetA = curPos + 8;
+      if(targetA >15 ){ targetA -= 16; }
+      if( this.playerData.loc[ curPlayer ] === targetA ){
+        this.playerData.HP[ opp ] -= 10;
+        return "Hit";
+      }
+      else {  return "Miss";  }
+    break;
+
+    case "B":
+      targetA = curPos + 5;
+      if(targetA >15 ){ targetA -= 16; }
+      targetB = curPos - 5;
+      if(targetB < 0 ){ targetB += 16; }
+      if( this.playerData.loc[ curPlayer ] === targetA || this.playerData.loc[ curPlayer ] === targetB ){
+        this.playerData.HP[ opp ] -= 5;
+        return "Hit";
+      }
+      else { return "Miss"; }
+    break;
+
+    case "C":
+      targetA = curPos + 4;
+      if(targetA >15 ){ targetA -= 16; }
+      targetB = curPos - 4;
+      if(targetB < 0 ){ targetB += 16; }
+      if( this.playerData.loc[ curPlayer ] === targetA || this.playerData.loc[ curPlayer ] === targetB ){
+        this.playerData.HP[ opp ] -= 3;
+        return "Hit";
+      }
+      else { return "Miss"; }
+    break;
+
+    case "D":
+      targetA = curPos + 1;
+      if(targetA >15 ){ targetA -= 16; }
+      targetB = curPos - 1;
+      if(targetB < 0 ){ targetB += 16; }
+      if( this.playerData.loc[ curPlayer ] === targetA || this.playerData.loc[ curPlayer ] === targetB ){
+        this.playerData.HP[ opp ] -= 10;
+        return "Hit";
+      }
+      else { return "Miss"; }
+    break;
+  }
+  return "ERROR: invalid type given to runAttack: "+type;
+};
+
 GameObj.prototype.movePlayer = function( clockwise ){
   let m = 1;
   if( !clockwise ){ m = -1; }
