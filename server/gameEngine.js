@@ -1,16 +1,19 @@
 
 var request = require('request');
 
-var Player = require("./player.js");
-var GameObj = require("./GameObj.js");
+var { Player } = require("./player.js");
+var { GameObj } = require("./GameObj.js");
 
-var GameData = function(){
+var exports = module.exports = {};
+
+GameData = function(){
   this.players = [];
   this.openGames = [];
   this.activeGames = [];
-  this.idCnt = 0;
+  this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
 
   this.movePlayer = function( pIndex, gIndex, clockwise ){
+
     if( this.activeGames[ gIndex ].movePlayer(clockwise) === "success" ){
       //send player "attack slection" message
       return "success";
@@ -24,18 +27,23 @@ var GameData = function(){
   this.runData = function(data){
       //1. Check if player is in this.players
       if(!data.user_id){ return "Error, user_id not in provided data: "+data; }
+
       let index = this.players.findIndex(cv=>{
-        if( cv.user_id === data.user_id ){ return true; }
+        if( cv.userID === data.user_id ){ return true; }
         return false;
       });
+
       if( index === -1 ){
         this.players.push( new Player( data.user_name, data.user_id, "init", data.response_url ) );
         //Send init message with "new Game / join game"
         return "success";
       }
 
+      this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
       //2. Player was found, check action_value
       //Menu Functions
+      let offset = 0;
+      let jList = [];
       switch( data.action_value ){
         case "newGame":
           this.openGames.push( new GameObj( data.user_id, this.idCnt ) );
@@ -44,15 +52,15 @@ var GameData = function(){
           return "success";
           break;
         case "joinList":
-          var jList = this.getJoinList( 0 );
+          jList = this.getJoinList( 0 );
           this.players[index].menuState = "gameList0";
           //Send joinList message
           return "success";
           break;
         case "nextPage":
-          var offset = ( +this.players[index].menuState.substring( 7 ) ) + 1;
+          offset = ( +this.players[index].menuState.substring( 8 ) ) + 1;
           this.players[index].menuState = "gameList"+offset;
-          var jList = this.getJoinList( offset );
+          jList = this.getJoinList( offset );
           //Send joinList message
           return "success";
           break;
@@ -61,19 +69,24 @@ var GameData = function(){
       //Game logic:
       const gameID = data.action_name;
       const command = data.action_value;
-      const openGamesIndex = this.openGames.findIndex( cv => { return cv.id === gameID; } );
-      const activeGamesIndex = this.activeGames.findIndex( cv => { return cv.id === gameID; } );
+      const openGamesIndex = this.openGames.findIndex( cv => { return ""+cv.id === gameID; } );
+      const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === gameID; } );
+      if( command !== "join" && activeGamesIndex === -1 ){ return "ERROR: Game not found on active game list."; }
+      let res = 0;
+
+      //May need to make sure that the user passing the command is the active player( except for "continue" ). This should never
+      //happen, but could if something goes wrong or someone is trying to "hack" it.
 
       switch(command){
         case "join":
           if( this.openGames[ openGamesIndex ].addPlayer( data.user_id ) === "success" ){
             this.players[ index ].menuState = "inGame";
-            this.players[ this.openGame[ openGamesIndex ].players[0] ].menuState = "inGame";
-            this.openGame[ openGamesIndex ].rand(); //Randomize the inital settings
-            this.openGame[ openGamesIndex ].menuState = "moveSelect";
+            //this.players[ this.openGames[ openGamesIndex ].players[0] ].menuState = "inGame";
+            this.openGames[ openGamesIndex ].rand(); //Randomize the inital settings
+            this.openGames[ openGamesIndex ].menuState = "moveSelect";
             //Send active player "move Select" message
             //send non-active player "waiting on opponent" message
-            this.activeGames.push( this.openGame.splice(openGamesIndex,1) ); //Remove game from openList and add it to activeList
+            this.activeGames.push( this.openGames.splice(openGamesIndex,1)[0] ); //Remove game from openList and add it to activeList
             return "success";
           }
           else { //Could not join the game - This would happen if the game fills up between the time this list is given to the user and the time they clicked the button
@@ -126,25 +139,25 @@ var GameData = function(){
             return "success";
           break;
         case "attackA":
-            let res = this.activeGames[ activeGamesIndex ].runAttack("A");
+            res = this.activeGames[ activeGamesIndex ].runAttack("A");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
             //send resaults message to both players
             return "success";
           break;
         case "attackB":
-            let res = this.activeGames[ activeGamesIndex ].runAttack("B");
+            res = this.activeGames[ activeGamesIndex ].runAttack("B");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
             //send resaults message to both players
             return "success";
           break;
         case "attackC":
-            let res = this.activeGames[ activeGamesIndex ].runAttack("C");
+            res = this.activeGames[ activeGamesIndex ].runAttack("C");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
             //send resaults message to both players
             return "success";
           break;
         case "attackD":
-            let res = this.activeGames[ activeGamesIndex ].runAttack("D");
+            res = this.activeGames[ activeGamesIndex ].runAttack("D");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
             //send resaults message to both players
             return "success";
@@ -161,7 +174,9 @@ var GameData = function(){
   };
 
  this.getJoinList = function(offset){
-   return this.openGames.slice(offset*4,4).map( cv => { return cv.gameID; } );
+   return this.openGames.slice(offset*4,(offset*4)+4).map( cv => { return cv.id; } );
  }
 
-}();
+};
+
+exports.GameData = new GameData();
