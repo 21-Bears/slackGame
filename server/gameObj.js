@@ -103,3 +103,8 @@ exports.GameObj.prototype.rand = function() {
   if(r>15){ r -=  16; }
   this.playerData.loc[1]=r;
 };
+
+exports.GameObj.prototype.checkGameOver = function(){
+  if( this.playerData.HP[0] < 1 || this.playerData.HP[1] < 1 ){ return true; }
+  return false;
+}

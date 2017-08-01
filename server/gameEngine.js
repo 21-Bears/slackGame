@@ -12,18 +12,6 @@ GameData = function(){
   this.activeGames = [];
   this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
 
-  this.movePlayer = function( pIndex, gIndex, clockwise ){
-
-    if( this.activeGames[ gIndex ].movePlayer(clockwise) === "success" ){
-      //send player "attack slection" message
-      return "success";
-    }
-    else {
-      //Send "unable to move" + "attack selection" messages
-      return "success";
-    }
-  }
-
   this.runData = function(data){
       //1. Check if player is in this.players
       if(!data.user_id){ return "Error, user_id not in provided data: "+data; }
@@ -62,6 +50,11 @@ GameData = function(){
           this.players[index].menuState = "gameList"+offset;
           jList = this.getJoinList( offset );
           //Send joinList message
+          return "success";
+          break;
+        case "quit":
+          //Send goodbye message
+          this.players.splice( index, 1 ); //Remove player form players list
           return "success";
           break;
       };
@@ -141,24 +134,40 @@ GameData = function(){
         case "attackA":
             res = this.activeGames[ activeGamesIndex ].runAttack("A");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
+            if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
+              //Send resaults + Game Over + button to go back to init menu
+              return "success";
+            }
             //send resaults message to both players
             return "success";
           break;
         case "attackB":
             res = this.activeGames[ activeGamesIndex ].runAttack("B");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
+            if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
+              //Send resaults + Game Over + button to go back to init menu
+              return "success";
+            }
             //send resaults message to both players
             return "success";
           break;
         case "attackC":
             res = this.activeGames[ activeGamesIndex ].runAttack("C");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
+            if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
+              //Send resaults + Game Over + button to go back to init menu
+              return "success";
+            }
             //send resaults message to both players
             return "success";
           break;
         case "attackD":
             res = this.activeGames[ activeGamesIndex ].runAttack("D");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
+            if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
+              //Send resaults + Game Over + button to go back to init menu
+              return "success";
+            }
             //send resaults message to both players
             return "success";
           break;
@@ -168,6 +177,11 @@ GameData = function(){
             //send move Select message to active playerID
             //send waiting on opponent message to non-active player
             return "success";
+          break;
+        case "endGame":
+          //Send init message to both players ( "new game / join game" )
+          this.activeGames.splice( activeGamesIndex, 1 ); //Delete game from activeGames list
+          return "success";
           break;
       };
 
