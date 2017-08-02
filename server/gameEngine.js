@@ -2,7 +2,7 @@
 var request = require('request');
 
 var { Player } = require("./player.js");
-var { GameObj } = require("./GameObj.js");
+var { GameObj } = require("./gameObj.js");
 
 var exports = module.exports = {};
 
