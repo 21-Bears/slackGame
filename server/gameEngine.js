@@ -13,7 +13,6 @@ GameData = function(){
   this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
 
   this.runData = function(data){
-      //1. Check if player is in this.players
       if(!data.user_id){ return "Error, user_id not in provided data: "+data; }
 
       let index = this.players.findIndex(cv=>{
@@ -24,7 +23,32 @@ GameData = function(){
       if( index === -1 ){
         this.players.push( new Player( data.user_name, data.user_id, "init", data.response_url ) );
         //Send init message with "new Game / join game"
-        return "success";
+        //return `success ${data.user_name}`;
+        return{  
+      "text": "presented by Bears21!",
+      "attachments": [              
+        {            
+            "title": "Would you like to play slackGame?",
+            "callback_id": "startGame",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "yes",
+                    "text": "Yes",
+                    "type": "button",
+                    "value": "yes"
+                },
+                {
+                    "name": "no",
+                    "text": "No",
+                    "type": "button",
+                    "value": "no"
+                }
+            ]
+        }
+    ]
+};
       }
 
       this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
@@ -59,13 +83,14 @@ GameData = function(){
           break;
       };
 
-      //Game logic:
+//Game logic:
       const gameID = data.action_name;
       const command = data.action_value;
       const openGamesIndex = this.openGames.findIndex( cv => { return ""+cv.id === gameID; } );
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === gameID; } );
       if( command !== "join" && activeGamesIndex === -1 ){ return "ERROR: Game not found on active game list."; }
       let res = 0;
+
 
       //May need to make sure that the user passing the command is the active player( except for "continue" ). This should never
       //happen, but could if something goes wrong or someone is trying to "hack" it.
@@ -183,10 +208,8 @@ GameData = function(){
           this.activeGames.splice( activeGamesIndex, 1 ); //Delete game from activeGames list
           return "success";
           break;
-      };
-
-  };
-
+      };     
+  }
  this.getJoinList = function(offset){
    return this.openGames.slice(offset*4,(offset*4)+4).map( cv => { return cv.id; } );
  }
