@@ -60,6 +60,8 @@ let staticMessages = {
     "text": "Waiting on opponent....",
     "attachments": [
       {
+        "text": "If you want to leave click the exit button...",
+        "fallback": "You are unable to quit this game!!!",
           "callback_id": "waiting_opp",
           "color": "#3AA3E3",
           "attachment_type": "default",
