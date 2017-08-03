@@ -102,6 +102,8 @@ var exports = module.exports = {};
           "text": "Select the game you would like to join.",
           "attachments": [
             {
+                "text" : "Avalible games:"
+                "fallback": "Can not show game buttons!!!",
                 "callback_id": "join_select",
                 "color": "#3AA3E3",
                 "attachment_type": "default",
