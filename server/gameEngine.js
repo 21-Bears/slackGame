@@ -4,7 +4,8 @@ var { Message } = require("./messages.js");
 
 var exports = module.exports = {};
 
-GameData = function(){
+
+var GameData = function(){
   this.players = [];
   this.openGames = [];
   this.activeGames = [];

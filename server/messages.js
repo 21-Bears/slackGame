@@ -78,7 +78,7 @@ let staticMessages = {
 
 var exports = module.exports = {};
 
-exports.Message = function( ){
+ var Message = function( ){
 
   this.send = function( url, msg ){
     request( {
@@ -240,3 +240,5 @@ exports.Message = function( ){
   };
 
 };
+
+exports.Message = new Message();
