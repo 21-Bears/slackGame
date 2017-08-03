@@ -14,13 +14,14 @@ app.use('/slack/actions', slackMessages.expressMiddleware());
 app.post('/api/',(req,res)=>{
   let slackData = {};
  if( req.body.payload ){
-   console.log(req.body.payload);
+   let data = JSON.parse(req.body.payload);
+   console.log( data, typeof(data) );
    slackData = {
-   user_name: req.body.payload.user.name,
-   user_id: req.body.payload.user.id,
-   response_url: req.body.payload.response_url,
-   action_name : req.body.payload.actions[0].name,
-   action_value : req.body.payload.actions[0].value
+   user_name: data.user.name,
+   user_id: data.user.id,
+   response_url: data.response_url,
+   action_name : data.actions[0].name,
+   action_value :data.actions[0].value
   }
  }
  else {
