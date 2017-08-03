@@ -12,6 +12,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/slack/actions', slackMessages.expressMiddleware());
 
 app.post('/api/',(req,res)=>{
+
+  //This should be removed before released publicly
+  if(req.body.text === "reset" ){
+    GameData.resetData();
+    res.status(200).send("Server data reset!");
+    return;
+  }
+
+
   let slackData = {};
  if( req.body.payload ){
    let data = JSON.parse(req.body.payload);

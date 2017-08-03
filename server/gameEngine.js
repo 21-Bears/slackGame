@@ -11,6 +11,13 @@ var GameData = function(){
   this.activeGames = [];
   this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
 
+  this.resetData = function(){
+    this.players = [];
+    this.openGames = [];
+    this.activeGames = [];
+    this.idCnt = 0;
+  }
+
   this.runData = function(data){
       if(!data.user_id){ return "Error, user_id not in provided data: "+data; }
 
