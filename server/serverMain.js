@@ -14,6 +14,7 @@ app.use('/slack/actions', slackMessages.expressMiddleware());
 app.post('/api/',(req,res)=>{
   let slackData = {};
  if( req.body.payload ){
+   console.log(req.body.payload);
    slackData = {
    user_name: req.body.payload.user.name,
    user_id: req.body.payload.user.id,
