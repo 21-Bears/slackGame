@@ -12,16 +12,25 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/slack/actions', slackMessages.expressMiddleware());
 
 app.post('/api/',(req,res)=>{
-  let slackData = { user_name: req.body.user_name,
-                user_id: req.body.user_id,
-                ref_url: req.body.response_url};
+  let slackData = {};
  if( req.body.payload ){
-   slackData.action_name = req.body.payload.action[0].name;
-   slackData.action_value = req.body.payload.action[0].value;
+   slackData = {
+   user_name: req.body.payload.user.name,
+   user_id: req.body.payload.user.id,
+   response_url: req.body.payload.response_url,
+   action_name : req.body.payload.actions[0].name,
+   action_value : req.body.payload.actions[0].value
+  }
+ }
+ else {
+   slackData = { user_name: req.body.user_name,
+                 user_id: req.body.user_id,
+                 response_url: req.body.response_url };
  }
 
+console.log(slackData);
 GameData.runData(slackData);
-res.status(200).send(); 
+res.status(200).send();
 });
 
 app.post('/',(req,res)=>{
