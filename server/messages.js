@@ -55,8 +55,8 @@ let staticMessages = {
                   "type": "button",
                   "value": "joinList"
               } ]
-  },
-  "waiting":{
+  } ] },
+  "waiting": {
     "text": "Waiting on opponent....",
     "attachments": [
       {
@@ -70,13 +70,13 @@ let staticMessages = {
                   "type": "button",
                   "value": "quit"
               }]
-  },
+  }] },
   "goodbye":{
     "text": "Thanks for playing ******, goodbye."
   }
 };
 
-let exports = module.exports = {};
+var exports = module.exports = {};
 
 exports.Message = function( ){
 
