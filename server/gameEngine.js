@@ -1,8 +1,6 @@
-
-var request = require('request');
-
 var { Player } = require("./player.js");
 var { GameObj } = require("./gameObj.js");
+var { Message } = require("./messages.js");
 
 var exports = module.exports = {};
 
@@ -23,11 +21,12 @@ GameData = function(){
       if( index === -1 ){
         this.players.push( new Player( data.user_name, data.user_id, "init", data.response_url ) );
         //Send init message with "new Game / join game"
-        //return `success ${data.user_name}`;
-        return{  
+          Message.sendStatic(data.response_url,"start");
+        return `success`;
+        /*return{
       "text": "presented by Bears21!",
-      "attachments": [              
-        {            
+      "attachments": [
+        {
             "title": "Would you like to play slackGame?",
             "callback_id": "startGame",
             "color": "#3AA3E3",
@@ -48,7 +47,7 @@ GameData = function(){
             ]
         }
     ]
-};
+}; */
       }
 
       this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
@@ -61,12 +60,14 @@ GameData = function(){
           this.openGames.push( new GameObj( data.user_id, this.idCnt ) );
           this.idCnt++;
           //Send waiting for opponent message
+          Message.sendStatic(data.response_url,"waiting");
           return "success";
           break;
         case "joinList":
           jList = this.getJoinList( 0 );
           this.players[index].menuState = "gameList0";
           //Send joinList message
+          Message.sendJoinList( data.response_url , jList );
           return "success";
           break;
         case "nextPage":
@@ -74,10 +75,12 @@ GameData = function(){
           this.players[index].menuState = "gameList"+offset;
           jList = this.getJoinList( offset );
           //Send joinList message
+          Message.sendJoinList( data.response_url , jList );
           return "success";
           break;
         case "quit":
           //Send goodbye message
+          Message.sendStatic(data.response_url,"goodbye");
           this.players.splice( index, 1 ); //Remove player form players list
           return "success";
           break;
@@ -156,6 +159,12 @@ GameData = function(){
             }
             return "success";
           break;
+        case "stay" :
+          this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
+          this.activeGames[ activeGamesIndex ].playerData.attackCnt = 2;
+          //Send Attack selection message
+          return "success";
+          break;
         case "attackA":
             res = this.activeGames[ activeGamesIndex ].runAttack("A");
             this.activeGames[ activeGamesIndex ].menuState = "resaults";
@@ -208,7 +217,7 @@ GameData = function(){
           this.activeGames.splice( activeGamesIndex, 1 ); //Delete game from activeGames list
           return "success";
           break;
-      };     
+      };
   }
  this.getJoinList = function(offset){
    return this.openGames.slice(offset*4,(offset*4)+4).map( cv => { return cv.id; } );

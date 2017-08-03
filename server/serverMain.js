@@ -11,13 +11,26 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/slack/actions', slackMessages.expressMiddleware());
 
+app.post('/api/',(req,res)=>{
+  let slackData = { user_name: req.body.user_name,
+                user_id: req.body.user_id,
+                ref_url: req.body.response_url};
+ if( req.body.payload ){
+   slackData.action_name = req.body.payload.action[0].name;
+   slackData.action_value = req.body.payload.action[0].value;
+ }
+
+GameData.runData(slackData);
+res.status(200).send(); 
+});
+
 app.post('/',(req,res)=>{
 let slackData = { user_name: req.body.user_name,
               user_id: req.body.user_id,
               ref_url: req.body.response_url};
 
 
-// res.status(200).send();	
+// res.status(200).send();
 
 res.json(GameData.runData(slackData));
 });
@@ -32,7 +45,7 @@ slackMessages.action('startGame', (payload) => {
 
 //res.status(200).send();
 res.json(GameData.runData(slackData));
-  
+
 });
 
 
