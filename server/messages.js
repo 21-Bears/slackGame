@@ -135,6 +135,8 @@ var exports = module.exports = {};
       "text": "Choose your next move:",
       "attachments": [
         {
+            "text" : "Please select one of the following:"
+            "fallback" : "Unable to show moves."
             "callback_id": "move_select",
             "color": "#3AA3E3",
             "attachment_type": "default",
@@ -182,6 +184,8 @@ var exports = module.exports = {};
       "text": "Select your attack:",
       "attachments": [
         {
+            "text": "Please select one of the following:",
+            "fallback": "You are unable to choose an attack!",
             "callback_id": "attack_select",
             "color": "#3AA3E3",
             "attachment_type": "default",
@@ -225,6 +229,8 @@ var exports = module.exports = {};
       "text" : message_text,
       "attachments": [
         {
+            "text": "Resaults:",
+            "fallback": "Unable to show resaults!",
             "callback_id": "resaults",
             "color": "#3AA3E3",
             "attachment_type": "default",
