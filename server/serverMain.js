@@ -2,14 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const {GameData} = require('./gameEngine');
-const { createMessageAdapter } = require('@slack/interactive-messages');
+//const { createMessageAdapter } = require('@slack/interactive-messages');
 
 // Initialize using verification token from environment variables
-const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN ||'AH4knYuu3IfcuMKzdrXQzbfE');
+//const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN ||'AH4knYuu3IfcuMKzdrXQzbfE');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/slack/actions', slackMessages.expressMiddleware());
+app.use(bodyParser.urlencoded({ extended: true }));
+//app.use('/slack/actions', slackMessages.expressMiddleware());
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.post('/api/',(req,res)=>{
 
