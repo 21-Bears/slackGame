@@ -18,6 +18,12 @@ var GameData = function(){
     this.idCnt = 0;
   }
 
+  this.getPlayerURL = function(id){
+    let index = this.players.findIndex(cv=>{ return cv.userID === id;  });
+    if( index === -1 ){ return "Error, invalid user id"; }
+    return this.players[index].callbackURL;
+  }
+
   this.runData = function(data){
       if(!data.user_id){ return "Error, user_id not in provided data: "+data; }
 
@@ -102,6 +108,10 @@ var GameData = function(){
       if( command !== "join" && activeGamesIndex === -1 ){ return "ERROR: Game not found on active game list."; }
       let res = 0;
 
+      const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+      const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
+      const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
+      const nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
 
       //May need to make sure that the user passing the command is the active player( except for "continue" ). This should never
       //happen, but could if something goes wrong or someone is trying to "hack" it.
@@ -114,12 +124,18 @@ var GameData = function(){
             this.openGames[ openGamesIndex ].rand(); //Randomize the inital settings
             this.openGames[ openGamesIndex ].menuState = "moveSelect";
             //Send active player "move Select" message
+            Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.openGames[ openGamesIndex ].id );
             //send non-active player "waiting on opponent" message
+            Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
             this.activeGames.push( this.openGames.splice(openGamesIndex,1)[0] ); //Remove game from openList and add it to activeList
             return "success";
           }
           else { //Could not join the game - This would happen if the game fills up between the time this list is given to the user and the time they clicked the button
             //Send message "Could not join game" + joinList Message
+            jList = this.getJoinList( 0 );
+            this.players[index].menuState = "gameList0";
+            //Send joinList message
+            Message.sendJoinList( data.response_url , jList );
             return "success";
           }
           break;
@@ -127,10 +143,12 @@ var GameData = function(){
             if( this.activeGames[ activeGamesIndex ].movePlayer(true) === "success" ){
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //send player "attack slection" message
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
             }
             else {
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //Send "unable to move" + "attack selection" messages
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
             }
             return "success";
           break;
@@ -138,10 +156,12 @@ var GameData = function(){
             if( this.activeGames[ activeGamesIndex ].movePlayer(false) === "success" ){
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //send player "attack slection" message
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
             }
             else {
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //Send "unable to move" + "attack selection" messages
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
             }
             return "success";
           break;
@@ -149,10 +169,12 @@ var GameData = function(){
             if( this.activeGames[ activeGamesIndex ].movePlayer(true) === "success" && this.activeGames[ activeGamesIndex ].movePlayer(true) === "success" ){
               this.activeGames[ activeGamesIndex ].menuState = "resaults";
               //send both players "resaults" message
+              Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, null, this.activeGames[ activeGamesIndex ].id, "Player did not attack." );
             }
             else {
               this.activeGames[ activeGamesIndex ].menuState = "resaults";
               //Send "unable to move" to active  + "resaults" messages to both
+              Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, null, this.activeGames[ activeGamesIndex ].id, "Player did not attack." );
             }
             return "success";
           break;
@@ -160,10 +182,12 @@ var GameData = function(){
             if( this.activeGames[ activeGamesIndex ].movePlayer(false) === "success" && this.activeGames[ activeGamesIndex ].movePlayer(false) === "success" ){
               this.activeGames[ activeGamesIndex ].menuState = "resaults";
               //send both players "resaults" message
+              Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, null, this.activeGames[ activeGamesIndex ].id, "Player did not attack." );
             }
             else {
               this.activeGames[ activeGamesIndex ].menuState = "resaults";
               //Send "unable to move" to active  + "resaults" messages to both
+              Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, null, this.activeGames[ activeGamesIndex ].id, "Player did not attack." );
             }
             return "success";
           break;
@@ -171,6 +195,7 @@ var GameData = function(){
           this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
           this.activeGames[ activeGamesIndex ].playerData.attackCnt = 2;
           //Send Attack selection message
+          Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos ,this.activeGames[ activeGamesIndex ].id );
           return "success";
           break;
         case "attackA":
@@ -181,6 +206,8 @@ var GameData = function(){
               return "success";
             }
             //send resaults message to both players
+            if(res === "HIT" ){ Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id, "Hit for 10 damage!" ); }
+            else { Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id, "Attack 'A' missed!" ); }
             return "success";
           break;
         case "attackB":
@@ -191,6 +218,8 @@ var GameData = function(){
               return "success";
             }
             //send resaults message to both players
+            if(res === "HIT" ){ Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "b", this.activeGames[ activeGamesIndex ].id, "Hit for 5 damage!" ); }
+            else { Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "b", this.activeGames[ activeGamesIndex ].id, "Attack 'B' missed!" ); }
             return "success";
           break;
         case "attackC":
@@ -201,6 +230,8 @@ var GameData = function(){
               return "success";
             }
             //send resaults message to both players
+            if(res === "HIT" ){ Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "c", this.activeGames[ activeGamesIndex ].id, "Hit for 3 damage!" ); }
+            else { Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "c", this.activeGames[ activeGamesIndex ].id, "Attack 'C' missed!" ); }
             return "success";
           break;
         case "attackD":
@@ -211,17 +242,23 @@ var GameData = function(){
               return "success";
             }
             //send resaults message to both players
+            if(res === "HIT" ){ Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id, "Hit for 10 damage!" ); }
+            else { Message.sendResaults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id, "Attack 'D' missed!" ); }
             return "success";
           break;
         case "continue":
             this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
             this.activeGames[ activeGamesIndex ].menuState = "moveSelect";
             //send move Select message to active playerID
+            Message.sendMoveSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id );
             //send waiting on opponent message to non-active player
+            Message.sendStatic(this.getPlayerURL(activePlayerID),"waiting");
             return "success";
           break;
         case "endGame":
           //Send init message to both players ( "new game / join game" )
+          Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"start");
+          Message.sendStatic(this.getPlayerURL(activePlayerID),"start");
           this.activeGames.splice( activeGamesIndex, 1 ); //Delete game from activeGames list
           return "success";
           break;

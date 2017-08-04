@@ -14,6 +14,28 @@ exports.GameObj = function( playerID, gameID ){
   };
 }
 
+exports.GameObj.prototype.getPlayerPos = function(active){
+  if(active){
+    if(this.ply1Turn){ return this.playerData.loc[0]; }
+    else{ return this.playerData.loc[1]; }
+  }
+  else {
+    if(this.ply1Turn){ return this.playerData.loc[1]; }
+    else{ return this.playerData.loc[0]; }
+  }
+}
+
+exports.GameObj.prototype.getPlayerID = function(active){
+  if(active){
+    if(this.ply1Turn){ return this.players[0]; }
+    else{ return this.players[1]; }
+  }
+  else {
+    if(this.ply1Turn){ return this.players[1]; }
+    else{ return this.players[0]; }
+  }
+}
+
 exports.GameObj.prototype.runAttack = function( type ) {
   let curPos =this.playerData.loc[0], curPlayer = 0, opp = 1;
   if( !this.ply1Turn ){ curPos = this.playerData.loc[1]; curPlayer = 1; opp = 0; }
