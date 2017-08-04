@@ -138,6 +138,7 @@ var GameData = function(){
             //send non-active player "waiting on opponent" message
             Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
             this.activeGames.push( this.openGames.splice(openGamesIndex,1)[0] ); //Remove game from openList and add it to activeList
+            console.log("Starting new game, messages sent.");
             return "success";
           }
           else { //Could not join the game - This would happen if the game fills up between the time this list is given to the user and the time they clicked the button
@@ -146,6 +147,7 @@ var GameData = function(){
             this.players[index].menuState = "gameList0";
             //Send joinList message
             Message.sendJoinList( data.response_url , jList );
+            console.log("Player could not join game.");
             return "success";
           }
           break;
