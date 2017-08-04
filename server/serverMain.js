@@ -23,6 +23,15 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
+  if(req.body.text === "gameData" ){
+    res.status(200).send( JSON.stringify(GameData.activeGames[0]) );
+    return;
+  }
+
+  if(req.body.text === "playerData" ){
+    res.status(200).send( JSON.stringify(GameData.players) );
+    return;
+  }
 
   let slackData = {};
  if( req.body.payload ){
