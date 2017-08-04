@@ -135,8 +135,8 @@ var exports = module.exports = {};
       "text": "Choose your next move:",
       "attachments": [
         {
-            "text" : "Please select one of the following:"
-            "fallback" : "Unable to show moves."
+            "text" : "Please select one of the following:",
+            "fallback" : "Unable to show moves.",
             "callback_id": "move_select",
             "color": "#3AA3E3",
             "attachment_type": "default",
