@@ -120,6 +120,7 @@ var GameData = function(){
       else {
         activePlayerID = this.openGames[ openGamesIndex ].getPlayerID(true);
         nonactivePlayerID = this.openGames[ openGamesIndex ].getPlayerID(false);
+        activePlayerPos = this.openGames[ openGamesIndex ].getPlayerPos(true);
       }
 
 
