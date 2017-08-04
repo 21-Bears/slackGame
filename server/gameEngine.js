@@ -108,10 +108,23 @@ var GameData = function(){
       if( command !== "join" && activeGamesIndex === -1 ){ return "ERROR: Game not found on active game list."; }
       let res = 0;
 
-      const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
-      const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
-      const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
-      const nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
+      const activePlayerID;
+      const nonactivePlayerID;
+      const activePlayerPos;
+      const nonactivePlayerPos;
+
+      if( command !== "join" ){
+        activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+        nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
+        activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
+        nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
+      }
+
+      else {
+        activePlayerID = this.openGames[ openGamesIndex ].getPlayerID(true);
+        nonactivePlayerID = this.openGames[ openGamesIndex ].getPlayerID(false);
+      }
+
 
       //May need to make sure that the user passing the command is the active player( except for "continue" ). This should never
       //happen, but could if something goes wrong or someone is trying to "hack" it.
