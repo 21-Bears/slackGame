@@ -57,7 +57,7 @@ let slackData = { user_name: req.body.user_name,
 
 res.json(GameData.runData(slackData));
 });
-
+/*
 slackMessages.action('startGame', (payload) => {
   let slackData = { user_name: payload.user.name,
               user_id: payload.user.id,
@@ -71,6 +71,6 @@ res.json(GameData.runData(slackData));
 
 });
 
-
+*/
 
 module.exports = {app};
