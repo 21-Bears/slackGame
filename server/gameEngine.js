@@ -108,10 +108,7 @@ var GameData = function(){
       if( command !== "join" && activeGamesIndex === -1 ){ return "ERROR: Game not found on active game list."; }
       let res = 0;
 
-      const activePlayerID;
-      const nonactivePlayerID;
-      const activePlayerPos;
-      const nonactivePlayerPos;
+      let activePlayerID, nonactivePlayerID, activePlayerPos, nonactivePlayerPos;
 
       if( command !== "join" ){
         activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
