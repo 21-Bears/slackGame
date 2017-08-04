@@ -234,7 +234,8 @@ var exports = module.exports = {};
             "callback_id": "resaults",
             "color": "#3AA3E3",
             "attachment_type": "default",
-            "image_url": imageURL
+            "image_url": imageURL,
+            "actions" : []
           }]
     };
 
