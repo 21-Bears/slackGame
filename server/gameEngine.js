@@ -120,7 +120,6 @@ var GameData = function(){
       else {
         activePlayerID = this.openGames[ openGamesIndex ].getPlayerID(true);
         nonactivePlayerID = this.openGames[ openGamesIndex ].getPlayerID(false);
-        activePlayerPos = this.openGames[ openGamesIndex ].getPlayerPos(true);
       }
 
 
@@ -133,6 +132,9 @@ var GameData = function(){
             this.players[ index ].menuState = "inGame";
             //this.players[ this.openGames[ openGamesIndex ].players[0] ].menuState = "inGame";
             this.openGames[ openGamesIndex ].rand(); //Randomize the inital settings
+            activePlayerPos = this.openGames[ openGamesIndex ].getPlayerPos(true);
+            activePlayerID = this.openGames[ openGamesIndex ].getPlayerID(true);
+            nonactivePlayerID = this.openGames[ openGamesIndex ].getPlayerID(false);
             this.openGames[ openGamesIndex ].menuState = "moveSelect";
             //Send active player "move Select" message
             Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.openGames[ openGamesIndex ].id );
