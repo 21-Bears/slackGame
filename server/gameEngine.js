@@ -265,7 +265,8 @@ var GameData = function(){
             this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
             this.activeGames[ activeGamesIndex ].menuState = "moveSelect";
             //send move Select message to active playerID
-            Message.sendMoveSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id );
+            let playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+            Message.sendMoveSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
             //send waiting on opponent message to non-active player
             Message.sendStatic(this.getPlayerURL(activePlayerID),"waiting");
             return "success";

@@ -129,10 +129,10 @@ var exports = module.exports = {};
       this.send( url, message );
   };
 
-  this.sendMoveSelect = function( url, pos, gameID ){
+  this.sendMoveSelect = function( url, pos, gameID, playerData ){
     const imageURL =  protocol + '://' + host + '/assets/pos_'+pos+'.png';
     let message = {
-      "text": "Choose your next move:",
+      "text": `You have ${playerData} health remainiing. Choose your next move:`,
       "attachments": [
         {
             "text" : "Please select one of the following:",
