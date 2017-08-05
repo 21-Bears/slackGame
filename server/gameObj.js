@@ -46,9 +46,9 @@ exports.GameObj.prototype.runAttack = function( type ) {
       if(targetA >15 ){ targetA -= 16; }
       if( this.playerData.loc[ opp ] === targetA ){
         this.playerData.HP[ opp ] -= 10;
-        return "Hit";
+        return "HIT";
       }
-      else {  return "Miss";  }
+      else {  return "MISS";  }
     break;
 
     case "B":
@@ -58,9 +58,9 @@ exports.GameObj.prototype.runAttack = function( type ) {
       if(targetB < 0 ){ targetB += 16; }
       if( this.playerData.loc[ opp ] === targetA || this.playerData.loc[ opp ] === targetB ){
         this.playerData.HP[ opp ] -= 5;
-        return "Hit";
+        return "HIT";
       }
-      else { return "Miss"; }
+      else { return "MISS"; }
     break;
 
     case "C":
@@ -70,9 +70,9 @@ exports.GameObj.prototype.runAttack = function( type ) {
       if(targetB < 0 ){ targetB += 16; }
       if( this.playerData.loc[ opp ] === targetA || this.playerData.loc[ opp ] === targetB ){
         this.playerData.HP[ opp ] -= 3;
-        return "Hit";
+        return "HIT";
       }
-      else { return "Miss"; }
+      else { return "MISS"; }
     break;
 
     case "D":
@@ -82,9 +82,9 @@ exports.GameObj.prototype.runAttack = function( type ) {
       if(targetB < 0 ){ targetB += 16; }
       if( this.playerData.loc[ opp ] === targetA || this.playerData.loc[ opp ] === targetB ){
         this.playerData.HP[ opp ] -= 10;
-        return "Hit";
+        return "HIT";
       }
-      else { return "Miss"; }
+      else { return "MISS"; }
     break;
   }
   return "ERROR: invalid type given to runAttack: "+type;
