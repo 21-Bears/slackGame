@@ -13,7 +13,7 @@ Notes:
     1. Join List
     2. Move Select
     3. Attack selection
-    4. resaults
+    4. results
 
     -----------------
     request(
@@ -221,7 +221,7 @@ var exports = module.exports = {};
     this.send( url, message );
   };
 
-  this.sendResaults = function( url1, url2, pos, attack, gameID, message_text ){
+  this.sendResults = function( url1, url2, pos, attack, gameID, message_text ){
     let imgeURL = ""
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
 
@@ -229,9 +229,9 @@ var exports = module.exports = {};
       "text" : message_text,
       "attachments": [
         {
-            "text": "Resaults:",
-            "fallback": "Unable to show resaults!",
-            "callback_id": "resaults",
+            "text": "Results:",
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
             "color": "#3AA3E3",
             "attachment_type": "default",
             "image_url": imageURL,
