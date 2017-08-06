@@ -225,9 +225,8 @@ var exports = module.exports = {};
   this.sendGameOver = function(  url1, url2, pos, attack, gameID, attacker){
     let imgeURL = ""
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
-    resultText = attacker === 0 ? "You won!" : "You lost!"
     let message1 = {
-      "text" : `Game Over. ${resultText}`,
+      "text" : "Game Over. You Won!",
       "attachments": [
         {
             "text": "Results:",
@@ -236,12 +235,18 @@ var exports = module.exports = {};
             "color": "#3AA3E3",
             "attachment_type": "default",
             "image_url": imageURL,
-            "actions" : []
+            "actions": [
+                {
+                    "name": "quit_game",
+                    "text": "Exit",
+                    "type": "button",
+                    "value": "quit"
+                }]
           }]
     };
 
     let message2 = {
-      "text" : `Game Over. ${resultText}`,
+      "text" : "Game Over. You Lost!",
       "attachments": [
         {
             "text": "Results:",
@@ -250,18 +255,17 @@ var exports = module.exports = {};
             "color": "#3AA3E3",
             "attachment_type": "default",
             "image_url": imageURL,
-            "actions" : []
+            "actions": [
+                {
+                    "name": "quit_game",
+                    "text": "Exit",
+                    "type": "button",
+                    "value": "quit"
+                }]
           }]
     };
 
     this.send( url1, message1 ); //The player that just attacked/moved
-
-    message2.attachments[0].actions.push( { //Add continue button for non-active player
-      "name": ""+gameID,
-      "text": "Continue",
-      "type": "button",
-      "value": "continue"
-     } );
 
     this.send( url2, message2 );
   };
