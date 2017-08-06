@@ -182,7 +182,7 @@ var exports = module.exports = {};
     const imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
     const messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies the that position. Select your attack:"
     let message = {
-      "text": "Select your attack:",
+      "text": messageText,
       "attachments": [
         {
             "text": "Please select one of the following:",
@@ -224,6 +224,7 @@ var exports = module.exports = {};
 
   this.sendGameOver = function(  url1, url2, pos, attack, gameID, gameInfo){
     const imageURL = "";
+    if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
     let message = {
       "text": "Game Over!:",
       "attachments": [
