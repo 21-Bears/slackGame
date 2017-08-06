@@ -132,7 +132,7 @@ var exports = module.exports = {};
   this.sendMoveSelect = function( url, pos, gameID, playerData ){
     const imageURL =  protocol + '://' + host + '/assets/pos_'+pos+'.png';
     let message = {
-      "text": `You have ${playerData} health remainiing. Choose your next move:`,
+      "text": `You have ${playerData} health remaining. Choose your next move:`,
       "attachments": [
         {
             "text" : "Please select one of the following:",
@@ -178,10 +178,54 @@ var exports = module.exports = {};
     this.send( url, message );
   }
 
-  this.sendAttackSelect = function( url, pos, gameID ){
+  this.sendAttackSelect = function( url, pos, gameID, moveSuccessful){
     const imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
+    const messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies the that position. Select your attack:"
     let message = {
       "text": "Select your attack:",
+      "attachments": [
+        {
+            "text": "Please select one of the following:",
+            "fallback": "You are unable to choose an attack!",
+            "callback_id": "attack_select",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "image_url": imageURL,
+            "actions": [
+                  {
+                      "name": ""+gameID,
+                      "text": "Attack A",
+                      "type": "button",
+                      "value": "attackA"
+                  },
+                  {
+                      "name": ""+gameID,
+                      "text": "Attack B",
+                      "type": "button",
+                      "value": "attackB"
+                  },
+                  {
+                      "name": ""+gameID,
+                      "text": "Attack C",
+                      "type": "button",
+                      "value": "attackC"
+                  },
+                  {
+                      "name": ""+gameID,
+                      "text": "Attack D",
+                      "type": "button",
+                      "value": "attackD"
+                  }
+            ]
+          } ],
+    };
+    this.send( url, message );
+  };
+
+  this.sendGameOver = function(  url1, url2, pos, attack, gameID, gameInfo){
+    const imageURL = "";
+    let message = {
+      "text": "Game Over!:",
       "attachments": [
         {
             "text": "Please select one of the following:",

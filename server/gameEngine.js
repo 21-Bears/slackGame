@@ -158,12 +158,12 @@ var GameData = function(){
             if( this.activeGames[ activeGamesIndex ].movePlayer(true) === "success" ){
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //send player "attack slection" message
-              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id, true );
             }
             else {
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //Send "unable to move" + "attack selection" messages
-              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id, false );
             }
             return "success";
           break;
@@ -171,12 +171,12 @@ var GameData = function(){
             if( this.activeGames[ activeGamesIndex ].movePlayer(false) === "success" ){
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //send player "attack slection" message
-              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id, true );
             }
             else {
               this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
               //Send "unable to move" + "attack selection" messages
-              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
+              Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id, false );
             }
             return "success";
           break;
@@ -189,6 +189,7 @@ var GameData = function(){
             else {
               this.activeGames[ activeGamesIndex ].menuState = "results";
               //Send "unable to move" to active  + "results" messages to both
+              //Should a failure to move here let the player have a chance to move again, so they can move once CW or CCW and try and attack?
               Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, null, this.activeGames[ activeGamesIndex ].id, "Player did not attack." );
             }
             return "success";
@@ -202,6 +203,7 @@ var GameData = function(){
             else {
               this.activeGames[ activeGamesIndex ].menuState = "results";
               //Send "unable to move" to active  + "results" messages to both
+              //Should a failure to move here let the player have a chance to move again, so they can move once CW or CCW and try and attack?
               Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, null, this.activeGames[ activeGamesIndex ].id, "Player did not attack." );
             }
             return "success";
@@ -254,6 +256,7 @@ var GameData = function(){
             this.activeGames[ activeGamesIndex ].menuState = "results";
             if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
               //Send results + Game Over + button to go back to init menu
+              Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id, this.activeGames[ activeGamesIndex ].playerData );
               return "success";
             }
             //send results message to both players
