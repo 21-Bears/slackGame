@@ -256,7 +256,8 @@ var GameData = function(){
             this.activeGames[ activeGamesIndex ].menuState = "results";
             if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
               //Send results + Game Over + button to go back to init menu
-              Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id,  this.activeGames[ activeGamesIndex ].playerData);
+              let attacker = this.activeGames[ activeGamesIndex ].ply1Turn ? 0 : 1;
+              Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id,  attacker);
               return "success";
             }
             //send results message to both players
