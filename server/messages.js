@@ -223,47 +223,47 @@ var exports = module.exports = {};
   };
 
   this.sendGameOver = function(  url1, url2, pos, attack, gameID, gameInfo){
-    const imageURL = "";
+    let imgeURL = ""
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
-    let message = {
-      "text": "Game Over!:",
+    resultText = gameInfo.HP[0] <= 0 ? "You lost!" : "You won!"
+    let message1 = {
+      "text" : `Game Over. ${resultText}`,
       "attachments": [
         {
-            "text": "Please select one of the following:",
-            "fallback": "You are unable to choose an attack!",
-            "callback_id": "attack_select",
+            "text": "Results:",
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
             "color": "#3AA3E3",
             "attachment_type": "default",
             "image_url": imageURL,
-            "actions": [
-                  {
-                      "name": ""+gameID,
-                      "text": "Attack A",
-                      "type": "button",
-                      "value": "attackA"
-                  },
-                  {
-                      "name": ""+gameID,
-                      "text": "Attack B",
-                      "type": "button",
-                      "value": "attackB"
-                  },
-                  {
-                      "name": ""+gameID,
-                      "text": "Attack C",
-                      "type": "button",
-                      "value": "attackC"
-                  },
-                  {
-                      "name": ""+gameID,
-                      "text": "Attack D",
-                      "type": "button",
-                      "value": "attackD"
-                  }
-            ]
-          } ],
+            "actions" : []
+          }]
     };
-    this.send( url, message );
+
+    let message2 = {
+      "text" : `Game Over. ${resultText}`,
+      "attachments": [
+        {
+            "text": "Results:",
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "image_url": imageURL,
+            "actions" : []
+          }]
+    };
+
+    this.send( url1, message1 ); //The player that just attacked/moved
+
+    message.attachments[0].actions.push( { //Add continue button for non-active player
+      "name": ""+gameID,
+      "text": "Continue",
+      "type": "button",
+      "value": "continue"
+     } );
+
+    this.send( url2, message2 );
   };
 
   this.sendResults = function( url1, url2, pos, attack, gameID, message_text ){
