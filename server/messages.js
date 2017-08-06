@@ -222,7 +222,7 @@ var exports = module.exports = {};
     this.send( url, message );
   };
 
-  this.sendGameOver = function(  url1, url2, pos, attack, gameID, gameInfo){
+  this.sendGameOver = function(  url1, url2, pos, attack, gameID, attacker){
     let imgeURL = ""
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
     resultText = attacker === 0 ? "You won!" : "You lost!"
