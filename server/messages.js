@@ -225,7 +225,7 @@ var exports = module.exports = {};
   this.sendGameOver = function(  url1, url2, pos, attack, gameID, gameInfo){
     let imgeURL = ""
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
-    resultText = gameInfo.HP[0] <= 0 ? "You lost!" : "You won!"
+    resultText = attacker === 0 ? "You won!" : "You lost!"
     let message1 = {
       "text" : `Game Over. ${resultText}`,
       "attachments": [
@@ -256,7 +256,7 @@ var exports = module.exports = {};
 
     this.send( url1, message1 ); //The player that just attacked/moved
 
-    message.attachments[0].actions.push( { //Add continue button for non-active player
+    message2.attachments[0].actions.push( { //Add continue button for non-active player
       "name": ""+gameID,
       "text": "Continue",
       "type": "button",
