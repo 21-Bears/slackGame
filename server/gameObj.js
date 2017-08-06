@@ -8,7 +8,7 @@ exports.GameObj = function( playerID, gameID ){
   this.ply1Turn = true; //if ply1Turn then it's this.players[0] turn
   this.menuState = "waiting";
   this.playerData = {
-    HP:[ 50, 50 ],
+    HP:[ 10, 10 ],
     loc: [ 0, 8 ],
     attackCnt: 1
   };
