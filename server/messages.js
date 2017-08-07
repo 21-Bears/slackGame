@@ -98,7 +98,35 @@ var exports = module.exports = {};
   };
 
   this.sendJoinList = function( url, list ){
-      let message = {
+      let messsage = {};
+      if(list.length === 0){
+        
+        message = {
+          "text": "There aren't any games to join.",
+          "attachments": [
+            {
+                "text" : "No avalible games:",
+                "fallback": "Can not show game buttons!!!",
+                "callback_id": "start_select",
+                "color": "#3AA3E3",
+                "attachment_type": "default",
+                "actions": [
+                  {
+                  "name": "new_game",
+                  "text": "New Game",
+                  "type": "button",
+                  "value": "newGame"
+              },              {
+                  "name": "quit_game",
+                  "text": "Exit",
+                  "type": "button",
+                  "value": "quit"
+              }
+                ]
+        } ],
+      }; 
+      } else {
+      message = {
           "text": "Select the game you would like to join.",
           "attachments": [
             {
@@ -125,8 +153,9 @@ var exports = module.exports = {};
         "type" : "button",
         "value" : "nextPage"
       });
-
+    }
       this.send( url, message );
+    
   };
 
   this.sendMoveSelect = function( url, pos, gameID, playerData ){
