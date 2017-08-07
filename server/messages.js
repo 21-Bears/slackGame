@@ -97,7 +97,7 @@ var exports = module.exports = {};
     this.send( url, staticMessages[type] );
   };
 
-  this.sendJoinList = function( url, list, addedText ){
+  this.sendJoinList = function( url, list, addedText = "" ){
       let messsage = {};
       if(list.length === 0){
 
