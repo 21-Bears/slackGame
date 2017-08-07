@@ -97,12 +97,12 @@ var exports = module.exports = {};
     this.send( url, staticMessages[type] );
   };
 
-  this.sendJoinList = function( url, list ){
+  this.sendJoinList = function( url, list, addedText ){
       let messsage = {};
       if(list.length === 0){
-        
+
         message = {
-          "text": "There aren't any games to join.",
+          "text": addedText+"There aren't any games to join.",
           "attachments": [
             {
                 "text" : "No avalible games:",
@@ -124,10 +124,10 @@ var exports = module.exports = {};
               }
                 ]
         } ],
-      }; 
+      };
       } else {
       message = {
-          "text": "Select the game you would like to join.",
+          "text": addedText+"Select the game you would like to join.",
           "attachments": [
             {
                 "text" : "Avalible games:",
@@ -155,7 +155,7 @@ var exports = module.exports = {};
       });
     }
       this.send( url, message );
-    
+
   };
 
   this.sendMoveSelect = function( url, pos, gameID, playerData ){

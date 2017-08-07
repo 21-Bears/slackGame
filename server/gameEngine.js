@@ -37,31 +37,6 @@ var GameData = function(){
         //Send init message with "new Game / join game"
           Message.sendStatic(data.response_url,"start");
         return `success`;
-        /*return{
-      "text": "presented by Bears21!",
-      "attachments": [
-        {
-            "title": "Would you like to play slackGame?",
-            "callback_id": "startGame",
-            "color": "#3AA3E3",
-            "attachment_type": "default",
-            "actions": [
-                {
-                    "name": "yes",
-                    "text": "Yes",
-                    "type": "button",
-                    "value": "yes"
-                },
-                {
-                    "name": "no",
-                    "text": "No",
-                    "type": "button",
-                    "value": "no"
-                }
-            ]
-        }
-    ]
-}; */
       }
 
       this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
@@ -121,31 +96,27 @@ var GameData = function(){
         nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
       }
 
-      else {
-        activePlayerID = this.openGames[ openGamesIndex ].getPlayerID(true);
-        nonactivePlayerID = this.openGames[ openGamesIndex ].getPlayerID(false);
-      }
-
-
       //May need to make sure that the user passing the command is the active player( except for "continue" ). This should never
       //happen, but could if something goes wrong or someone is trying to "hack" it.
 
       switch(command){
         case "join":
           if( this.openGames[ openGamesIndex ].addPlayer( data.user_id ) === "success" ){
+
             this.players[ index ].menuState = "inGame";
-            //this.players[ this.openGames[ openGamesIndex ].players[0] ].menuState = "inGame";
             this.openGames[ openGamesIndex ].rand(); //Randomize the inital settings
+
             activePlayerPos = this.openGames[ openGamesIndex ].getPlayerPos(true);
             activePlayerID = this.openGames[ openGamesIndex ].getPlayerID(true);
             nonactivePlayerID = this.openGames[ openGamesIndex ].getPlayerID(false);
+
             this.openGames[ openGamesIndex ].menuState = "moveSelect";
             //Send active player "move Select" message
             Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.openGames[ openGamesIndex ].id );
             //send non-active player "waiting on opponent" message
             Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
             this.activeGames.push( this.openGames.splice(openGamesIndex,1)[0] ); //Remove game from openList and add it to activeList
-            console.log("Starting new game, messages sent.");
+            //console.log("Starting new game, messages sent.");
             return "success";
           }
           else { //Could not join the game - This would happen if the game fills up between the time this list is given to the user and the time they clicked the button
@@ -153,7 +124,7 @@ var GameData = function(){
             jList = this.getJoinList( 0 );
             this.players[index].menuState = "gameList0";
             //Send joinList message
-            Message.sendJoinList( data.response_url , jList );
+            Message.sendJoinList( data.response_url , jList, "Could not join game. " );
             console.log("Player could not join game.");
             return "success";
           }
