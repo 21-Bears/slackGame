@@ -96,6 +96,10 @@ var GameData = function(){
           //Send goodbye message
           Message.sendStatic(data.response_url,"goodbye");
           this.players.splice( index, 1 ); //Remove player form players list
+          // if quitting while the only player in a game, remove game
+          if(this.players.length === 0){
+            this.openGames.pop();
+          }
           return "success";
           break;
       };
