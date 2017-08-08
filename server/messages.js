@@ -159,6 +159,9 @@ var exports = module.exports = {};
   };
 
   this.sendMoveSelect = function( url, pos, gameID, playerData ){
+    if(!playerData){ // initial player data was saying undefined
+      playerData = 10;
+    }
     const imageURL =  protocol + '://' + host + '/assets/pos_'+pos+'.png';
     let message = {
       "text": `You have ${playerData} health remaining. Choose your next move:`,
