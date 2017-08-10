@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const path = require('path');
-const {GameData} = require('./gameEngine2');
+const {GameData} = require('./gameEngine');
 //const { createMessageAdapter } = require('@slack/interactive-messages');
 
 // Initialize using verification token from environment variables
