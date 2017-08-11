@@ -139,6 +139,7 @@ var GameData = function(){
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
           //Send results + Game Over + button to go back to init menu
+          Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id);
           return "success";
         }
         //send results message to both players
@@ -154,6 +155,7 @@ var GameData = function(){
           this.activeGames[ activeGamesIndex ].menuState = "results";
           if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
             //Send results + Game Over + button to go back to init menu
+            Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "b", this.activeGames[ activeGamesIndex ].id);
             return "success";
           }
           //send results message to both players
@@ -169,6 +171,7 @@ var GameData = function(){
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
           //Send results + Game Over + button to go back to init menu
+          Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "c", this.activeGames[ activeGamesIndex ].id);
           return "success";
         }
             //send results message to both players
@@ -184,6 +187,7 @@ var GameData = function(){
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
             //Send results + Game Over + button to go back to init menu
+          Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id);
           return "success";
         }
           //send results message to both players
