@@ -53,7 +53,7 @@ var GameData = function(){
 
         this.openGames[ openGamesIndex ].menuState = "moveSelect";
         Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.openGames[ openGamesIndex ].id );
-        Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
+        Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waitingOn");
         this.activeGames.push( this.openGames.splice(openGamesIndex,1)[0] ); //Remove game from openList and add it to activeList
       }
       else { //Could not join the game - This would happen if the game fills up between the time this list is given to the user and the time they clicked the button
@@ -203,7 +203,7 @@ var GameData = function(){
       this.activeGames[ activeGamesIndex ].menuState = "moveSelect";
       const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
       Message.sendMoveSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
-      Message.sendStatic(this.getPlayerURL(activePlayerID),"waiting");
+      Message.sendStatic(this.getPlayerURL(activePlayerID),"waitingOn");
     },
     "endGame": function(data){
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );

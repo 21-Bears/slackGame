@@ -94,11 +94,21 @@ exports.GameObj.prototype.movePlayer = function( clockwise ){
   let m = 1;
   if( !clockwise ){ m = -1; }
   if( this.ply1Turn ){
-    if( this.playerData.loc[0] + m !== this.playerData.loc[1] ){ this.playerData.loc[0] += m; return "success"; }
+    if( this.playerData.loc[0] + m !== this.playerData.loc[1] ){
+      this.playerData.loc[0] += m;
+      if( this.playerData.loc[0] < 0 ){ this.playerData.loc[0]+=16; }
+      else if( this.playerData.loc[0] > 15 ){ this.playerData.loc[0]-=16; }
+      return "success";
+    }
     return "Error, player 2 at position";
   }
   else {
-    if( this.playerData.loc[1] + m !== this.playerData.loc[0] ){ this.playerData.loc[1] += m; return "success"; }
+    if( this.playerData.loc[1] + m !== this.playerData.loc[0] ){
+      this.playerData.loc[1] += m;
+      if( this.playerData.loc[1] < 0 ){ this.playerData.loc[1]+=16; }
+      else if( this.playerData.loc[1] > 15 ){ this.playerData.loc[1]-=16; }
+      return "success";
+    }
     return "Error, player 1 at position";
   }
 }

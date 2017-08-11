@@ -34,7 +34,7 @@ const protocol = "https";
 
 let staticMessages = {
   "start": {
-    "text": "Welcome to *****",
+    "text": "Welcome to Round Table Battle -ver 1.0-",
     "attachments": [
       {
           "text": "Would you like to start a new game or join one?",
@@ -57,7 +57,24 @@ let staticMessages = {
               } ]
   } ] },
   "waiting": {
-    "text": "Waiting on opponent....",
+    "text": "Waiting for opponent to join....",
+    "attachments": [
+      {
+        "text": "If you want to leave click the exit button...",
+        "fallback": "You are unable to quit this game!!!",
+          "callback_id": "waiting_opp",
+          "color": "#3AA3E3",
+          "attachment_type": "default",
+          "actions": [
+              {
+                  "name": "quit_game",
+                  "text": "Exit",
+                  "type": "button",
+                  "value": "quit"
+              }]
+  }] },
+  "waitingOn": {
+    "text": "Waiting on opponent to finish their turn....",
     "attachments": [
       {
         "text": "If you want to leave click the exit button...",
@@ -74,7 +91,7 @@ let staticMessages = {
               }]
   }] },
   "goodbye":{
-    "text": "Thanks for playing ******, goodbye."
+    "text": "Thanks for playing Round Table Battle, goodbye."
   }
 };
 
@@ -89,7 +106,7 @@ var exports = module.exports = {};
       method: "POST",
       json: true,
       body: msg
-    }, (err) => { console.log("Error sending message! "+err); return err; } );
+    }, (err) => { return err; } );
   };
 
   this.sendStatic = function( url, type ){
@@ -158,10 +175,8 @@ var exports = module.exports = {};
 
   };
 
-  this.sendMoveSelect = function( url, pos, gameID, playerData ){
-    if(!playerData){ // initial player data was saying undefined
-      playerData = 10;
-    }
+  this.sendMoveSelect = function( url, pos, gameID, playerData = 10 ){
+
     const imageURL =  protocol + '://' + host + '/assets/pos_'+pos+'.png';
     let message = {
       "text": `You have ${playerData} health remaining. Choose your next move:`,
@@ -303,7 +318,7 @@ var exports = module.exports = {};
   };
 
   this.sendResults = function( url1, url2, pos, attack, gameID, message_text ){
-    let imgeURL = ""
+    let imgeURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
 
     let message = {
