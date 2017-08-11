@@ -210,9 +210,9 @@ var exports = module.exports = {};
     this.send( url, message );
   }
 
-  this.sendAttackSelect = function( url, pos, gameID, moveSuccessful){
+  this.sendAttackSelect = function( url, pos, gameID, moveSuccessful = true){
     const imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
-    const messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies the that position. Select your attack:"
+    const messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies that position. Select your attack:"
     let message = {
       "text": messageText,
       "attachments": [
