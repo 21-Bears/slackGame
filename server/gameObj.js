@@ -7,9 +7,11 @@ exports.GameObj = function( playerID, gameID ){
   this.players = [ playerID ];
   this.ply1Turn = true; //if ply1Turn then it's this.players[0] turn
   this.menuState = "waiting";
+  this.powerUpPos = -1;
   this.playerData = {
     HP:[ 10, 10 ],
     loc: [ 0, 8 ],
+    powerUp: [ 1, 1 ], //Used to multiply hit strength
     attackCnt: 1
   };
 }
@@ -39,16 +41,22 @@ exports.GameObj.prototype.getPlayerID = function(active){
 exports.GameObj.prototype.runAttack = function( type ) {
   let curPos =this.playerData.loc[0], curPlayer = 0, opp = 1;
   if( !this.ply1Turn ){ curPos = this.playerData.loc[1]; curPlayer = 1; opp = 0; }
-  let targetA = -1, targetB = -1;
+  let targetA = -1, targetB = -1, pow = 0;
   switch(type){
     case "A":
       targetA = curPos + 8;
       if(targetA >15 ){ targetA -= 16; }
       if( this.playerData.loc[ opp ] === targetA ){
-        this.playerData.HP[ opp ] -= 10;
-        return "HIT";
+        pow = 10 * this.playerData.powerUp[ curPlayer ];
+        this.playerData.HP[ opp ] -= pow;
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); } //Reset powerUp after use
+        return pow;
       }
-      else {  return "MISS";  }
+      else {
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return 0;
+      }
+
     break;
 
     case "B":
@@ -57,10 +65,15 @@ exports.GameObj.prototype.runAttack = function( type ) {
       targetB = curPos - 5;
       if(targetB < 0 ){ targetB += 16; }
       if( this.playerData.loc[ opp ] === targetA || this.playerData.loc[ opp ] === targetB ){
-        this.playerData.HP[ opp ] -= 5;
-        return "HIT";
+        pow = 5 * this.playerData.powerUp[ curPlayer ];
+        this.playerData.HP[ opp ] -= pow;
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return pow;
       }
-      else { return "MISS"; }
+      else {
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return 0;
+      }
     break;
 
     case "C":
@@ -69,10 +82,15 @@ exports.GameObj.prototype.runAttack = function( type ) {
       targetB = curPos - 4;
       if(targetB < 0 ){ targetB += 16; }
       if( this.playerData.loc[ opp ] === targetA || this.playerData.loc[ opp ] === targetB ){
-        this.playerData.HP[ opp ] -= 3;
-        return "HIT";
+        pow = 3 * this.playerData.powerUp[ curPlayer ];
+        this.playerData.HP[ opp ] -= pow;
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return pow;
       }
-      else { return "MISS"; }
+      else {
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return 0;
+      }
     break;
 
     case "D":
@@ -81,10 +99,15 @@ exports.GameObj.prototype.runAttack = function( type ) {
       targetB = curPos - 1;
       if(targetB < 0 ){ targetB += 16; }
       if( this.playerData.loc[ opp ] === targetA || this.playerData.loc[ opp ] === targetB ){
-        this.playerData.HP[ opp ] -= 10;
-        return "HIT";
+        pow = 10 * this.playerData.powerUp[ curPlayer ];
+        this.playerData.HP[ opp ] -= pow;
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return pow;
       }
-      else { return "MISS"; }
+      else {
+        if( this.playerData.powerUp[ curPlayer ] !== 1 ){ this.playerData.powerUp[ curPlayer ] = 1; this.addPowerUp(); }
+        return 0;
+      }
     break;
   }
   return "ERROR: invalid type given to runAttack: "+type;
@@ -98,6 +121,11 @@ exports.GameObj.prototype.movePlayer = function( clockwise ){
       this.playerData.loc[0] += m;
       if( this.playerData.loc[0] < 0 ){ this.playerData.loc[0]+=16; }
       else if( this.playerData.loc[0] > 15 ){ this.playerData.loc[0]-=16; }
+      if( this.playerData.loc[0] === this.powerUpPos ){
+        this.playerData.powerUp[0] = 2;
+        this.powerUpPos = -1;
+        return "powerUp";
+      }
       return "success";
     }
     return "Error, player 2 at position";
@@ -107,6 +135,11 @@ exports.GameObj.prototype.movePlayer = function( clockwise ){
       this.playerData.loc[1] += m;
       if( this.playerData.loc[1] < 0 ){ this.playerData.loc[1]+=16; }
       else if( this.playerData.loc[1] > 15 ){ this.playerData.loc[1]-=16; }
+      if( this.playerData.loc[1] === this.powerUpPos ){
+        this.playerData.powerUp[1] = 2;
+        this.powerUpPos = -1;
+        return "powerUp";
+      }
       return "success";
     }
     return "Error, player 1 at position";
@@ -121,6 +154,11 @@ exports.GameObj.prototype.addPlayer = function( playerID ){
   return "success";
 }
 
+exports.GameObj.prototype.addPowerUp = function(){
+  do {
+    this.powerUpPos = Math.floor( Math.random()*16 );
+  } while ( this.powerUpPos != this.playerData.loc[0] && this.powerUpPos != this.playerData.loc[1] );
+}
 //At the start of a new game, GameObj.rand() should be called to randomize who gets
 //first move and the location of each player
 
@@ -135,6 +173,7 @@ exports.GameObj.prototype.rand = function() {
   r += (Math.floor(Math.random()*15) || 1); //Move at least 1 space away from firt player
   if(r>15){ r -=  16; }
   this.playerData.loc[1]=r;
+  this.addPowerUp();
 };
 
 exports.GameObj.prototype.checkGameOver = function(){

@@ -225,9 +225,10 @@ var exports = module.exports = {};
     this.send( url, message );
   }
 
-  this.sendAttackSelect = function( url, pos, gameID, moveSuccessful = true){
+  this.sendAttackSelect = function( url, pos, gameID, moveSuccessful = true, powerUp = false){
     const imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
-    const messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies that position. Select your attack:"
+    let messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies that position. Select your attack:"
+    if( powerUp ){ messageText = "You found a Power-up! ( 2 x Damage on next attack ). Select your attack:"; }
     let message = {
       "text": messageText,
       "attachments": [
@@ -317,12 +318,12 @@ var exports = module.exports = {};
     this.send( url2, message2 );
   };
 
-  this.sendResults = function( url1, url2, pos, attack, gameID, message_text ){
+  this.sendResults = function( url1, url2, pos, attack, gameID, message_text, powerUp = false ){
     let imgeURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
 
     let message = {
-      "text" : message_text,
+      "text" : powerUp ? message_text : "You found a Power-up. ( 2 x damage on your next attack ) "+message_text,
       "attachments": [
         {
             "text": "Results:",
@@ -336,7 +337,7 @@ var exports = module.exports = {};
     };
 
     this.send( url1, message ); //The player that just attacked/moved
-
+    message.attachments[0].text = message_text;
     message.attachments[0].actions.push( { //Add continue button for non-active player
       "name": ""+gameID,
       "text": "Continue",
