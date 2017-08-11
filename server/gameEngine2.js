@@ -237,7 +237,7 @@ var GameData = function(){
       }
 
       this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
-      this.buttonFunc[data.action_value](data);
+      this.buttonFunc[data.action_value].call(this,data);
   }
 
  this.getJoinList = function(offset){
