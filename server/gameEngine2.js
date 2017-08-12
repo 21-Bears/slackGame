@@ -149,7 +149,7 @@ var GameData = function(){
         }
         //send results message to both players
         if(res !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id, "Hit for "+res+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "", this.activeGames[ activeGamesIndex ].id, "Attack 'A' missed!" ); }
+        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id, "Attack 'A' missed!" ); }
       },
     "attackB": function(data){
           const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
@@ -165,7 +165,7 @@ var GameData = function(){
           }
           //send results message to both players
           if(res !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "b", this.activeGames[ activeGamesIndex ].id, "Hit for "+res+" damage!" ); }
-          else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "", this.activeGames[ activeGamesIndex ].id, "Attack 'B' missed!" ); }
+          else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "b", this.activeGames[ activeGamesIndex ].id, "Attack 'B' missed!" ); }
         },
     "attackC": function(data){
         const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
@@ -181,7 +181,7 @@ var GameData = function(){
         }
             //send results message to both players
         if(res !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "c", this.activeGames[ activeGamesIndex ].id, "Hit for "+res+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "", this.activeGames[ activeGamesIndex ].id, "Attack 'C' missed!" ); }
+        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "c", this.activeGames[ activeGamesIndex ].id, "Attack 'C' missed!" ); }
       },
     "attackD": function(data){
         const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
@@ -197,7 +197,7 @@ var GameData = function(){
         }
           //send results message to both players
         if(res !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id, "Hit for "+res+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "", this.activeGames[ activeGamesIndex ].id, "Attack 'D' missed!" ); }
+        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id, "Attack 'D' missed!" ); }
       },
     "continue": function(data){
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
