@@ -321,9 +321,10 @@ var exports = module.exports = {};
   this.sendResults = function( url1, url2, pos, attack, gameID, message_text, powerUp = false ){
     let imgeURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
+    let activePlayer_text = powerUp ? "You found a Power-up.( 2 x damage on your next attack ) "+message_text : message_text;
 
     let message = {
-      "text" : powerUp ? message_text : "You found a Power-up. ( 2 x damage on your next attack ) "+message_text,
+      "text" : activePlayer_text,
       "attachments": [
         {
             "text": "Results:",

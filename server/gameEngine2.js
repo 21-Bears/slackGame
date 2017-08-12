@@ -247,6 +247,7 @@ var GameData = function(){
       }
 
       this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
+      if( !data.action_value || !this.buttonFunc[ data.action_value ] ) { return "Error"; }
       this.buttonFunc[data.action_value].call( this, data, index );
   }
 
