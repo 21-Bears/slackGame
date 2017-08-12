@@ -221,7 +221,8 @@ var GameData = function(){
   };
 
   this.resetData = function(){
-    this.players.forEach( cv => { Messages.sendStatic( cv.callbackURL , "goodbye" ); } );
+    console.log("......Reseting Game Data.........");
+    this.players.forEach( (cv)=>{ Messages.sendStatic( cv.callbackURL , "goodbye" ); } );
     this.players = [];
     this.openGames = [];
     this.activeGames = [];

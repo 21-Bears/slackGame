@@ -271,7 +271,7 @@ var exports = module.exports = {};
   };
 
   this.sendGameOver = function(  url1, url2, pos, attack, gameID, attacker){
-    let imgeURL = ""
+    let imageURL = ""
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
     let message1 = {
       "text" : "Game Over. You Won!",
@@ -319,7 +319,7 @@ var exports = module.exports = {};
   };
 
   this.sendResults = function( url1, url2, pos, attack, gameID, message_text, powerUp = false ){
-    let imgeURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
+    let imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
     let activePlayer_text = powerUp ? "You found a Power-up.( 2 x damage on your next attack ) "+message_text : message_text;
 
