@@ -319,7 +319,7 @@ var exports = module.exports = {};
   };
 
   this.sendResults = function( url1, url2, pos, attack, gameID, message_text, powerUp = false ){
-    let imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
+    let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
     let activePlayer_text = powerUp ? "You found a Power-up.( 2 x damage on your next attack ) "+message_text : message_text;
 
