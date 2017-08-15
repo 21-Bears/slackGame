@@ -16,7 +16,7 @@ var DatabaseHelper = function() {
   };
 
   this.processGameEnd = function(UID, name, win, loss) {
-    updateDatabase(UID, result).then((response, error) => {
+    this.updateDatabase(UID, result).then((response, error) => {
       if (error) {
         return false;
       } else if (response === "FOUND") {
