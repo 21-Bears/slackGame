@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const path = require('path');
+var mongoose = require("mongoose");
 const {GameData} = require('./gameEngine2');
 //const { createMessageAdapter } = require('@slack/interactive-messages');
 
@@ -13,6 +14,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use('/slack/actions', slackMessages.expressMiddleware());
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Mongoose db setup
+// Remove temporary username / password for production
+var mongoUser = process.env.DB_USERNAME || 'admin';
+var mongoPass = process.env.DB_PASSWORD || 'pass';
+
+mongoose.connect(`mongodb://${mongoUser}:${mongoPass}@ds053944.mlab.com:53944/round-table-battle`);
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection eror:"));
+db.once("open", function() {
+  console.log("MongoDB Database connected");
+});
+
 
 app.post('/api/',(req,res)=>{
 
