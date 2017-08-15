@@ -1,6 +1,7 @@
 var { Player } = require("./player.js");
 var { GameObj } = require("./gameObj.js");
 var { Message } = require("./messages.js");
+var { DatabaseHelper } = require("./databaseHelper.js");
 
 var exports = module.exports = {};
 
@@ -144,6 +145,9 @@ var GameData = function(){
         const res = this.activeGames[ activeGamesIndex ].runAttack("A");
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
+          
+          DatabaseHelper.processGameEnd(activePlayerID, this.getPlayerName(activePlayerID), 1, 0);
+          DatabaseHelper.processGameEnd(nonactivePlayerID,  this.getPlayerName(nonactivePlayerID), 0, 1);
           Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id);
           return "success";
         }
@@ -160,6 +164,8 @@ var GameData = function(){
           this.activeGames[ activeGamesIndex ].menuState = "results";
           if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
             //Send results + Game Over + button to go back to init menu
+            DatabaseHelper.processGameEnd(activePlayerID, this.getPlayerName(activePlayerID), 1, 0);
+            DatabaseHelper.processGameEnd(nonactivePlayerID,  this.getPlayerName(nonactivePlayerID), 0, 1);
             Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "b", this.activeGames[ activeGamesIndex ].id);
             return "success";
           }
@@ -176,6 +182,8 @@ var GameData = function(){
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
           //Send results + Game Over + button to go back to init menu
+          DatabaseHelper.processGameEnd(activePlayerID, this.getPlayerName(activePlayerID), 1, 0);
+          DatabaseHelper.processGameEnd(nonactivePlayerID,  this.getPlayerName(nonactivePlayerID), 0, 1);
           Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "c", this.activeGames[ activeGamesIndex ].id);
           return "success";
         }
@@ -192,6 +200,8 @@ var GameData = function(){
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
             //Send results + Game Over + button to go back to init menu
+          DatabaseHelper.processGameEnd(activePlayerID, this.getPlayerName(activePlayerID), 1, 0);
+          DatabaseHelper.processGameEnd(nonactivePlayerID,  this.getPlayerName(nonactivePlayerID), 0, 1);
           Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "d", this.activeGames[ activeGamesIndex ].id);
           return "success";
         }
@@ -233,6 +243,12 @@ var GameData = function(){
     let index = this.players.findIndex(cv=>{ return cv.userID === id;  });
     if( index === -1 ){ return "Error, invalid user id"; }
     return this.players[index].callbackURL;
+  }
+
+  this.getPlayerName = function(id){
+    let index = this.players.findIndex(cv=>{ return cv.userID === id;  });
+    if( index === -1 ){ return "Error, invalid user id"; }
+    return this.players[index].user_name;
   }
 
   this.runData = function(data){
