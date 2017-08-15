@@ -21,6 +21,7 @@
     "@slack/interactive-messages": "^0.1.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "mongoose": "^4.11.7",
     "request": "^2.81.0"
   }
 }
