@@ -23,6 +23,7 @@ var DatabaseHelper = function() {
         return true;
       } else if (response === "NOT_FOUND") {
         leaderboard.schema.methods.newLeaderboardEntry(UID, name, win, loss);
+        return true;
       }
     });
   };
@@ -50,7 +51,6 @@ var DatabaseHelper = function() {
     );
   };
 
-  this.addToDatabase = function() {};
 };
 
 exports.DatabaseHelper = new DatabaseHelper();

@@ -145,7 +145,7 @@ var GameData = function(){
         const res = this.activeGames[ activeGamesIndex ].runAttack("A");
         this.activeGames[ activeGamesIndex ].menuState = "results";
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
-          
+
           DatabaseHelper.processGameEnd(activePlayerID, this.getPlayerName(activePlayerID), 1, 0);
           DatabaseHelper.processGameEnd(nonactivePlayerID,  this.getPlayerName(nonactivePlayerID), 0, 1);
           Message.sendGameOver( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, "a", this.activeGames[ activeGamesIndex ].id);
@@ -248,7 +248,7 @@ var GameData = function(){
   this.getPlayerName = function(id){
     let index = this.players.findIndex(cv=>{ return cv.userID === id;  });
     if( index === -1 ){ return "Error, invalid user id"; }
-    return this.players[index].user_name;
+    return this.players[index].userName;
   }
 
   this.runData = function(data){
