@@ -1,6 +1,6 @@
 var leaderboard = require("./leaderboardModel.js");
 
-var exports = module.exports = {};
+var exports = (module.exports = {});
 
 var DatabaseHelper = function() {
   this.queryDatabase = function() {
@@ -29,28 +29,29 @@ var DatabaseHelper = function() {
   };
 
   this.updateDatabase = function(UID, win, loss) {
-    leaderboard.findOneAndUpdate(
-      {
-        UID: UID
-      },
-      {
-        $inc: {
-          wins: win,
-          losses: loss
+    return new Promise(function(resolve, reject) {
+      leaderboard.findOneAndUpdate(
+        {
+          UID: UID
+        },
+        {
+          $inc: {
+            wins: win,
+            losses: loss
+          }
+        },
+        function(err, doc) {
+          if (err) {
+            reject(err);
+          } else if (doc) {
+            resolve("FOUND");
+          } else {
+            resolve("NOT_FOUND");
+          }
         }
-      },
-      function(err, doc) {
-        if (err) {
-          reject(err);
-        } else if (doc) {
-          resolve("FOUND");
-        } else {
-          resolve("NOT_FOUND");
-        }
-      }
-    );
+      );
+    });
   };
-
 };
 
 exports.DatabaseHelper = new DatabaseHelper();
