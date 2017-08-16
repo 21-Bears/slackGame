@@ -50,23 +50,26 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
-  if(req.body.text === "topTen" ){
-    console.log('topTen');
+  if(req.body.text === "topTen" && req.body.payload ){
+    
     DatabaseHelper.queryDatabase().then((response, error) => {
       if(error) {
-        console.log('error')
+ 
         res.status(400).send();
         
         
       } else {
-        console.log('response', response)
+        console.log('response', JSON.parse(req.body.payload).data.response_url)
         
-    res.status(200).send( JSON.stringify(response) );
-       return;
+        Message.sendTopTen(JSON.parse(req.body.payload).data.response_url, response)
+        
+ 
+       
       }      
       
       
     })
+    return;
     }
 
   let slackData = {};

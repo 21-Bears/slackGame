@@ -349,6 +349,37 @@ var exports = module.exports = {};
     this.send( url2, message );
   };
 
+  this.sendTopTen = function( url1, topTen ){
+    let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
+    
+    
+
+    let message = {
+      "text" : "Top Ten",
+      "attachments": [
+        {
+            "text": "Results:",
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "image_url": imageURL,
+            "actions" : []
+          }]
+    };
+
+    this.send( url1, message ); //The player that just attacked/moved
+    message.attachments[0].text = message_text;
+    message.attachments[0].actions.push( { //Add continue button for non-active player
+      "name": ""+gameID,
+      "text": "Continue",
+      "type": "button",
+      "value": "continue"
+     } );
+
+
+  };
+
 };
 
 exports.Message = new Message();
