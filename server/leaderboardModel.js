@@ -15,7 +15,7 @@ leaderboardSchema.methods.newLeaderboardEntry = function(UID, name, wins, losses
   var newEntry = new leaderboardModel({
     _id: new ObjectID(),
     UID: UID,
-    nameame: name,
+    name: name,
     wins: wins,
     losses: losses
   });

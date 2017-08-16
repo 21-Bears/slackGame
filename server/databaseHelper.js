@@ -16,6 +16,7 @@ var DatabaseHelper = function() {
   };
 
   this.processGameEnd = function(UID, name, win, loss) {
+    console.log('Processing game end for user: ' + name)
     this.updateDatabase(UID, win, loss).then((response, error) => {
       if (error) {
         return false;
