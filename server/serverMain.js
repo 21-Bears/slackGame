@@ -50,16 +50,20 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
-  if(req.body.text === "topTen" && req.body.payload ){
+  if(req.body.text === "topTen" ){
+        console.log('in topTen');
+
     
     DatabaseHelper.queryDatabase().then((response, error) => {
+        console.log('in then');
+      
       if(error) {
  
         res.status(400).send();
         
         
       } else {
-        console.log('response', JSON.parse(req.body.payload).data.response_url)
+        console.log('response', req.body.response_url)
         
         Message.sendTopTen(JSON.parse(req.body.payload).data.response_url, response)
         
