@@ -352,11 +352,11 @@ var exports = module.exports = {};
   this.sendTopTen = function( url1, topTen ){
     let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
     console.log(topTen);
-    let message = ''
+    let message = '';
     Object.keys(response).map((user, index) => {
       message += `${index+1}.) ${user.name}\n`
     })
-    console.log(message)
+    console.log(message);
     
 
     let message = {
@@ -373,14 +373,7 @@ var exports = module.exports = {};
           }]
     };
 
-    this.send( url1, message ); //The player that just attacked/moved
-    message.attachments[0].text = message_text;
-    message.attachments[0].actions.push( { //Add continue button for non-active player
-      "name": ""+gameID,
-      "text": "Continue",
-      "type": "button",
-      "value": "continue"
-     } );
+    this.send( url1, message );     
 
 
   };
