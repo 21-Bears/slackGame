@@ -4,6 +4,9 @@ const http = require('http');
 const path = require('path');
 var mongoose = require("mongoose");
 const {GameData} = require('./gameEngine2');
+var { DatabaseHelper } = require("./databaseHelper.js");
+var { Message } = require("./messages.js");
+
 //const { createMessageAdapter } = require('@slack/interactive-messages');
 
 // Initialize using verification token from environment variables
@@ -46,6 +49,20 @@ app.post('/api/',(req,res)=>{
     res.status(200).send( JSON.stringify(GameData.players) );
     return;
   }
+
+  if(req.body.text === "topTen" ){
+    DatabaseHelper.queryDatabase().then((response, error) => {
+      if(error) {
+        res.status(400).send();
+        
+      } else {
+    res.status(200).send( JSON.stringify(response) );
+       
+      }      
+      
+  
+    })
+    }
 
   let slackData = {};
  if( req.body.payload ){
