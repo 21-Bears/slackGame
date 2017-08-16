@@ -50,7 +50,7 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
-  if(req.body.text === "topTen" && req.body.payload ){
+  if(req.body.text === "topTen"){
         console.log('in topTen');
 
     
