@@ -50,7 +50,7 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
-  if(req.body.text === "topTen" ){
+  if(req.body.text === "topTen" && req.body.payload ){
         console.log('in topTen');
 
     
@@ -65,7 +65,7 @@ app.post('/api/',(req,res)=>{
       } else {
         console.log('response', req.body.response_url)
         
-        Message.sendTopTen(JSON.parse(req.body.payload).data.response_url, response)
+        Message.sendTopTen(req.body.response_url, response)
         
  
        
