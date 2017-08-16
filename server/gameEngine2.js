@@ -232,7 +232,7 @@ var GameData = function(){
 
   this.resetData = function(){
     console.log("......Reseting Game Data.........");
-    this.players.forEach( (cv)=>{ Messages.sendStatic( cv.callbackURL , "goodbye" ); } );
+    this.players.forEach( (cv)=>{ Message.sendStatic( cv.callbackURL , "goodbye" ); } );
     this.players = [];
     this.openGames = [];
     this.activeGames = [];
