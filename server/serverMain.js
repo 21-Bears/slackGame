@@ -53,9 +53,13 @@ app.post('/api/',(req,res)=>{
   if(req.body.text === "topTen" ){
     DatabaseHelper.queryDatabase().then((response, error) => {
       if(error) {
+        console.log('error')
         res.status(400).send();
         
+        
       } else {
+        console.log('response', response)
+        
     res.status(200).send( JSON.stringify(response) );
        
       }      
