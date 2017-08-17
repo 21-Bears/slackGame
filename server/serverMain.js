@@ -50,28 +50,34 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
-  if(req.body.text === "topTen"){
-        console.log('in topTen');
-
-    
-    DatabaseHelper.queryDatabase().then((response, error) => {
-        console.log('in then');
-      
-      if(error) {
- 
-        res.status(400).send();
+  if(req.body.text === "topTen"){    
+    DatabaseHelper.queryDatabase().then((response, error) => {     
+      if(error) { 
+        res.status(400).send();        
         
-        
-      } else {
-        console.log('response', req.body.response_url)
-        
-        Message.sendTopTen(req.body.response_url, response)
-        
- 
+      } else {      
+        Message.sendTopTen(req.body.response_url, response)     
        
       }      
-      
-      
+         
+    })
+    return;
+    }
+
+    if(req.body.text === "myRank"){    
+    DatabaseHelper.queryDatabaseForUser().then((response, error) => {     
+      if(error) { 
+        res.status(400).send();        
+        
+      } else { 
+        let rank =  response.map((user, index) => {
+          if(user.UID === req.body.user_id) return index;
+        } )    
+        console.log(rank + " " + response.length;);
+        //Message.sendMyRank(req.body.response_url, response)     
+       
+      }      
+         
     })
     return;
     }

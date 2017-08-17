@@ -15,6 +15,18 @@ var DatabaseHelper = function() {
     });
   };
 
+  this.queryDatabaseForUser = function() {
+    return new Promise(function(resolve, reject) {
+      leaderboard.find({}).sort({'wins':-1}).exec(function(err, doc) {     
+        if (err) {
+          reject(err);
+        } else {
+          resolve(doc);
+        }
+      });
+    });
+  };
+
   this.processGameEnd = function(UID, name, win, loss) {
     console.log('Processing game end for user: ' + name)
     this.updateDatabase(UID, win, loss).then((response, error) => {
