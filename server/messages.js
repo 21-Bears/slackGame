@@ -402,6 +402,8 @@ var exports = module.exports = {};
         break;
     }
     
+    message_text += `You rank ${rank} out of ${field} total players`; 
+
     let message = {
       "text" : "Your Rank",
       "attachments": [
