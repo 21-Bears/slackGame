@@ -352,9 +352,9 @@ var exports = module.exports = {};
   this.sendTopTen = function( url1, topTen ){
     let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
     console.log(topTen);
-    let message = '';
+    let message_text = '';
     Object.keys(response).map((user, index) => {
-      message += `${index+1}.) ${user.name}\n`
+      message_text += `${index+1}.) ${user.name}\n`
     })
     console.log(message);
     
@@ -363,7 +363,7 @@ var exports = module.exports = {};
       "text" : "Top Ten",
       "attachments": [
         {
-            "text": message,
+            "text": message_text,
             "fallback": "Unable to show results!",
             "callback_id": "results",
             "color": "#3AA3E3",
