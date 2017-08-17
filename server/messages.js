@@ -402,12 +402,8 @@ var exports = module.exports = {};
         break;
     }
     
-    topTen.map((user, index) => {
-      message_text += `You rank ${rank} out of ${field} total players`
-    })    
-
     let message = {
-      "text" : "Top Ten",
+      "text" : "Your Rank",
       "attachments": [
         {
             "text": message_text,
