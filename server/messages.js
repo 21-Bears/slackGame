@@ -353,7 +353,7 @@ var exports = module.exports = {};
     let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
     console.log(topTen);
     let message_text = '';
-    Object.keys(response).map((user, index) => {
+    topTen.map((user, index) => {
       message_text += `${index+1}.) ${user.name}\n`
     })
     console.log(message);
