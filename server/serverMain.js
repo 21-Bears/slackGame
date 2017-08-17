@@ -70,17 +70,15 @@ app.post('/api/',(req,res)=>{
         res.status(400).send();        
         
       } else { 
-        console.log('else');
-        
-        let rank =  response.map((user, index) => {
-        console.log(user);
+        let rank;      
+        response.map((user, index) => {       
           
           if(user.UID === req.body.user_id) {
-            return index;
+            rank = index + 1;
           }
         })    
         console.log(rank + " " + response.length);
-        //Message.sendMyRank(req.body.response_url, response)     
+        Message.sendMyRank(req.body.response_url, rank, response.length)     
        
       }      
          

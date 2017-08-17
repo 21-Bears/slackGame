@@ -350,14 +350,10 @@ var exports = module.exports = {};
   };
 
   this.sendTopTen = function( url1, topTen ){
-    let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
-    console.log(topTen);
     let message_text = '';
     topTen.map((user, index) => {
       message_text += `${index+1}.) ${user.name} - ${user.wins}\n`
     })
-    console.log(message_text);
-    
 
     let message = {
       "text" : "Top Ten",
@@ -374,8 +370,57 @@ var exports = module.exports = {};
     };
 
     this.send( url1, message );     
+  };
 
+   this.sendMyRank = function( url1, rank, field ){
+    let message_text = '';
+    let lastDigit = rank % 10;
+    switch(lastDigit){
+      case 1:
+        if(rank % 100 === 11){
+        rank += "th"
+          
+        } else {
+        rank += "st"; }
+        break;
+      case 2:
+        if(rank % 100 === 12){
+        rank += "th"
+          
+        } else {
+        rank += "nd"; }
+        break;
+      case 3:
+        if(rank % 100 === 13){
+        rank += "th"
+          
+        } else {
+        rank += "rd"; }
+        break;
+      default:
+        rank += 'th';
+        break;
+    }
+    
+    topTen.map((user, index) => {
+      message_text += `You rank ${rank} out of ${field} total players`
+    })    
 
+    let message = {
+      "text" : "Top Ten",
+      "attachments": [
+        {
+            "text": message_text,
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+           
+            "actions" : []
+          }]
+    };
+
+    this.send( url1, message );     
   };
 
 };
