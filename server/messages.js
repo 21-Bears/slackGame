@@ -354,7 +354,7 @@ var exports = module.exports = {};
     console.log(topTen);
     let message_text = '';
     topTen.map((user, index) => {
-      message_text += `${index+1}.) ${user.name}\n`
+      message_text += `${index+1}.) ${user.name} - ${user.wins}\n`
     })
     console.log(message_text);
     

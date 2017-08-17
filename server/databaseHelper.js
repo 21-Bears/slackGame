@@ -5,7 +5,7 @@ var exports = (module.exports = {});
 var DatabaseHelper = function() {
   this.queryDatabase = function() {
     return new Promise(function(resolve, reject) {
-      leaderboard.find({}).exec(function(err, doc) {
+      leaderboard.find({}).sort({'wins':-1}).limit(10).exec(function(err, doc) {
         if (err) {
           reject(err);
         } else {
