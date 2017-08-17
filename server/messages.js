@@ -356,7 +356,7 @@ var exports = module.exports = {};
     topTen.map((user, index) => {
       message_text += `${index+1}.) ${user.name}\n`
     })
-    console.log(message);
+    console.log(message_text);
     
 
     let message = {
