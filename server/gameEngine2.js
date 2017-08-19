@@ -235,20 +235,20 @@ var GameData = function(){
       // need to get current index.
       // I was struggling to get this to work so I hard coded it to 0 
       // so I could make sure the rest of it worked.  
-      const agIndex = 0;//this.activeGames.findIndex( cv => { console.log("cv.id" + cv.id);return  ""+cv.id === data.action_name; } );
+      const activeGamesIndex = 0;//this.activeGames.findIndex( cv => { console.log("cv.id" + cv.id);return  ""+cv.id === data.action_name; } );
 
-        const activeGame = this.activeGames[agIndex];
+        const activeGame = this.activeGames[activeGamesIndex];
      
         console.log('This is the activeGame : ' + this.activeGames);
         this.players[ index ].menuState = "inGame";
         activeGame.rand(); //Randomize the inital settings
         activeGame.playerData.HP= [10,10];
-        const activePlayerPos = this.activeGames[ agIndex ].getPlayerPos(true);
-        const activePlayerID = this.activeGames[ agIndex ].getPlayerID(true);
-        const nonactivePlayerID = this.activeGames[ agIndex ].getPlayerID(false);
+        const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
+        const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+        const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
 
         
-        Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ agIndex ].id );
+        Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
         Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
      
     }
