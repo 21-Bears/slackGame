@@ -92,7 +92,29 @@ let staticMessages = {
   }] },
   "goodbye":{
     "text": "Thanks for playing Round Table Battle, goodbye."
-  }
+  },  "declinedRematch": {
+    "text": "Your opponent declined to rematch",
+    "attachments": [
+      {
+          "text": "Would you like to start a new game or join one?",
+          "fallback": "You are unable to choose a game",
+          "callback_id": "start_select",
+          "color": "#3AA3E3",
+          "attachment_type": "default",
+          "actions": [
+              {
+                  "name": "new_game",
+                  "text": "New Game",
+                  "type": "button",
+                  "value": "newGame"
+              },
+              {
+                  "name": "join_game",
+                  "text": "Join Game",
+                  "type": "button",
+                  "value": "joinList"
+              } ]
+  } ] }
 };
 
 var exports = module.exports = {};
@@ -291,7 +313,7 @@ var exports = module.exports = {};
                     "value": "quit"
                 },
                 {
-                    "name": "rematch",
+                    "name": ""+gameID,
                     "text": "Rematch",
                     "type": "button",
                     "value": "rematch"
@@ -331,12 +353,12 @@ var exports = module.exports = {};
   };
 
   this.sendResults = function( url1, url2, pos, attack, gameID, message_text, powerUp = false ){
-    let imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
+    let imageURL = protocol + '://' + host + '/assets/blankBoard.png';
     if( attack ){ imageURL = protocol + '://' + host + '/assets/pos_'+pos+'_attack_'+attack+'.png'; }
+    let activePlayer_text = powerUp ? "You found a Power-up.( 2 x damage on your next attack ) "+message_text : message_text;
 
     let message = {
-      
-      "text" : powerUp ? message_text : "You found a Power-up. ( 2 x damage on your next attack ) "+message_text,
+      "text" : activePlayer_text,
       "attachments": [
         {
             "text": "Results:",
@@ -359,6 +381,78 @@ var exports = module.exports = {};
      } );
 
     this.send( url2, message );
+  };
+
+  this.sendTopTen = function( url1, topTen ){
+    let message_text = '';
+    topTen.map((user, index) => {
+      message_text += `${index+1}.) ${user.name} - ${user.wins}\n`
+    })
+
+    let message = {
+      "text" : "Top Ten",
+      "attachments": [
+        {
+            "text": message_text,
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+           
+            "actions" : []
+          }]
+    };
+
+    this.send( url1, message );     
+  };
+
+   this.sendMyRank = function( url1, rank, field ){
+    let message_text = '';
+    let lastDigit = rank % 10;
+    switch(lastDigit){
+      case 1:
+        if(rank % 100 === 11){
+        rank += "th"
+          
+        } else {
+        rank += "st"; }
+        break;
+      case 2:
+        if(rank % 100 === 12){
+        rank += "th"
+          
+        } else {
+        rank += "nd"; }
+        break;
+      case 3:
+        if(rank % 100 === 13){
+        rank += "th"
+          
+        } else {
+        rank += "rd"; }
+        break;
+      default:
+        rank += 'th';
+        break;
+    }
+    
+    message_text += `You rank ${rank} out of ${field} total players`; 
+
+    let message = {
+      "text" : "Your Rank",
+      "attachments": [
+        {
+            "text": message_text,
+            "fallback": "Unable to show results!",
+            "callback_id": "results",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+           
+            "actions" : []
+          }]
+    };
+
+    this.send( url1, message );     
   };
 
 };
