@@ -146,7 +146,7 @@ exports.GameObj.prototype.movePlayer = function( clockwise ){
   }
 }
 
-GameObj.prototype.addPlayer = function( playerID ){
+exports.GameObj.prototype.addPlayer = function( playerID ){
   if(this.players.length >= 2){ return "Error: can not add player, game full."; }
   if(this.players[0] === playerID ){ return "Error: can not add player, player is already in game."; }
   this.players.push(playerID);
