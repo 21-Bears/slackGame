@@ -31,7 +31,7 @@ db.once("open", function() {
 });
 
 app.get('/',(req,res)=>{
-	res.sendFile(path.join(__dirname+'./../public/htmlindex.html'));
+	res.sendFile(path.join(__dirname+'./../public/htmlindex.html')); });
 
 app.post('/api/',(req,res)=>{
 
