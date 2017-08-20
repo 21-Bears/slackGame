@@ -11,7 +11,7 @@ var GameData = function(){
   this.openGames = [];
   this.activeGames = [];
   this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
-
+  this.rematchCnt = 0;
   this.buttonFunc = {
     "newGame": function(data){
       this.openGames.push( new GameObj( data.user_id, this.idCnt ) );
@@ -31,11 +31,18 @@ var GameData = function(){
     },
     "quit": function( data, index ){
       Message.sendStatic(data.response_url,"goodbye");
-      this.players.splice( index, 1 ); //Remove player form players list
-      // if quitting while the only player in a game, remove game
-      if(this.players.length === 0){
-        this.openGames.pop();
+      if(this.rematchCnt === 1){
+        const activeGamesIndex = 0;// go back and fix
+        const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+        Message.sendStatic(this.getPlayerURL(activePlayerID),"declinedRematch");
       }
+      this.players.splice( index, 1 ); //Remove player from players list
+      // if quitting while the only player in a game, remove game
+      if(this.players.length === 0 || this.rematchCnt < 2){
+        this.openGames.pop();
+        this.rematchCnt = 0;
+      }
+      this.openGames = [];
     },
     "join": function( data, index ){
       const openGamesIndex = this.openGames.findIndex( cv => { return ""+cv.id === data.action_name; } );
@@ -232,14 +239,26 @@ var GameData = function(){
 
     },
     "rematch": function( data, index){
-      // need to get current index.
-      // I was struggling to get this to work so I hard coded it to 0 
-      // so I could make sure the rest of it worked.  
-      const activeGamesIndex = 0;//this.activeGames.findIndex( cv => { console.log("cv.id" + cv.id);return  ""+cv.id === data.action_name; } );
+
+      const activeGamesIndex = 0;//this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
+      const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
+      const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+      if( this.players.length < 2){
+        Message.sendStatic(this.getPlayerURL(activePlayerID),"declinedRematch");
+        this.openGames.pop();
+        this.rematchCnt = 0;
+
+      } else if(this.rematchCnt == 0){
+        this.rematchCnt++;
+           Message.sendStatic(this.getPlayerURL(activePlayerID),"waiting");
+     
+      } else
+      {
+        this.rematchCnt = 0;
 
         const activeGame = this.activeGames[activeGamesIndex];
      
-        console.log('This is the activeGame : ' + this.activeGames);
+        
         this.players[ index ].menuState = "inGame";
         activeGame.rand(); //Randomize the inital settings
         activeGame.playerData.HP= [10,10];
@@ -249,8 +268,9 @@ var GameData = function(){
 
         
         Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
-        Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
+        Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waitingOn");
      
+      }
     }
   };
 
