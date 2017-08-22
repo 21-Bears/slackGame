@@ -30,12 +30,20 @@ var GameData = function(){
       Message.sendJoinList( data.response_url , jList );
     },
     "quit": function( data, index ){
-      Message.sendStatic(data.response_url,"goodbye");
-      this.players.splice( index, 1 ); //Remove player form players list
-      // if quitting while the only player in a game, remove game
-      if(this.players.length === 0){
-        this.openGames.pop();
+       Message.sendStatic(data.response_url,"goodbye");
+      if(this.rematchCnt === 1){
+        const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
+        const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+        Message.sendStatic(this.getPlayerURL(activePlayerID),"declinedRematch");
       }
+      this.players.splice( index, 1 ); //Remove player from players list
+      // if quitting while the only player in a game, remove game
+      if(this.players.length === 0 || this.rematchCnt < 2){
+        this.openGames.pop();
+        this.rematchCnt = 0;
+      }
+      this.openGames = [];
+        
     },
     "join": function( data, index ){
       const openGamesIndex = this.openGames.findIndex( cv => { return ""+cv.id === data.action_name; } );
@@ -232,14 +240,30 @@ var GameData = function(){
 
     },
     "rematch": function( data, index){
-      // need to get current index.
-      // I was struggling to get this to work so I hard coded it to 0 
-      // so I could make sure the rest of it worked.  
-      const activeGamesIndex = 0;//this.activeGames.findIndex( cv => { console.log("cv.id" + cv.id);return  ""+cv.id === data.action_name; } );
+      const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
+      const currentPlayerID =  data.user_id;
+
+
+      const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
+      const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
+      
+      
+      if( this.players.length < 2){
+        Message.sendStatic(this.getPlayerURL(currentPlayerID),"declinedRematch");
+        this.openGames.pop();
+        this.rematchCnt = 0;
+
+      } else if(this.rematchCnt == 0){
+        this.rematchCnt++;
+           Message.sendStatic(this.getPlayerURL(currentPlayerID),"waiting");
+     
+      } else
+      {
+        this.rematchCnt = 0;
 
         const activeGame = this.activeGames[activeGamesIndex];
      
-        console.log('This is the activeGame : ' + this.activeGames);
+        
         this.players[ index ].menuState = "inGame";
         activeGame.rand(); //Randomize the inital settings
         activeGame.playerData.HP= [10,10];
@@ -249,9 +273,11 @@ var GameData = function(){
 
         
         Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
-        Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waiting");
+        Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waitingOn");
      
-    }
+      }
+    
+}
   };
 
   this.resetData = function(){
