@@ -285,13 +285,13 @@ var exports = module.exports = {};
             "image_url": imageURL,
             "actions": [
                 {
-                    "name": "quit_game",
+                    "name": ""+gameID,
                     "text": "Exit",
                     "type": "button",
                     "value": "quit"
                 },
                 {
-                    "name": "rematch",
+                    "name": ""+gameID,
                     "text": "Rematch",
                     "type": "button",
                     "value": "rematch"
@@ -311,13 +311,13 @@ var exports = module.exports = {};
             "image_url": imageURL,
             "actions": [
                 {
-                    "name": "quit_game",
+                    "name": ""+gameID,
                     "text": "Exit",
                     "type": "button",
                     "value": "quit"
                 },
                 {
-                    "name": "rematch",
+                    "name": ""+gameID,
                     "text": "Rematch",
                     "type": "button",
                     "value": "rematch"
