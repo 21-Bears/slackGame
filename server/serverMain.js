@@ -42,6 +42,12 @@ app.post('/api/',(req,res)=>{
     return;
   }
 
+  if(req.body.text === "exit" ){
+    GameData.removePlayer(req.body.user_id);
+    res.status(200).send();
+    return;
+  }
+
   if(req.body.text === "gameData" ){
     res.status(200).send( JSON.stringify(GameData.activeGames[0]) );
     return;
