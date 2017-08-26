@@ -1,17 +1,37 @@
 /*Hero Background color - #C2D3CD */
+@font-face {
+  font-family: 'Western';
+  src: url('./../assets/Western Bang Bang.otf');
+}
+
+hr {
+  border-color: #1D1E18;
+}
 
 .hero {
-position: relative;
+  position: relative;
 
-  color: white;
-  background-color: #AFBFC0;
-  border-bottom: 2px solid #1D1E18;
+  color: #E6E8E6;
+  background-color: #248232;
+  border-bottom: 2px solid #27462C;
+  
 
+}
+
+h1{
+  font-family: 'Western';
+  font-size: 5.5rem !important;  
+  color: #27462C;
+  
+}
+
+.hero-title {
+  font-size: 9rem !important;  
+  font-family: 'Western';
 }
 
 .hero::after {
   content: "";
-  background-image: url("/tempLogo.ico");
   opacity: 0.5;
   background-size: contain;
   background-repeat: no-repeat;
@@ -40,30 +60,42 @@ position: relative;
 
 .command-item {
   display: flex;
+  flex-direction: column;
+
   border: 2px solid #1D1E18;
   background-color: white;
   border-radius: 5px;
-  padding:2px;
   margin:5px;
   width: 400px;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 5px;
 
 }
 
-.command-container {
-  border-top: 2px solid #1D1E18;
 
-  background-color: #AFBFC0;
+.command-container {
+  margin-top: 10px;
+  padding-top: 10px;
+  background-color: #fafafa;
   padding-bottom: 15px;
+background-color: rgba(0, 0, 0, 0.1);
+
 }
 
 .command-text {
   font-size: 1.5rem;
 
+  /* /* vertical-align: bottom;
+  display: flex; */
+
+  align-items: flex-end; 
+
+
+  
 }
 
 .screenshot-container {
-  margin: 5px 0px 5px 0px;
+  margin: 5px 0px 20px 0px;
 }
 
 
@@ -73,7 +105,19 @@ footer {
 padding-bottom: 1em;
 color: #fafafa;
 font-size: 1em;
-background-color: #1D1E18;
+background-color: #248232;
+}
+
+footer a {
+  font-weight: bold;
+  color: #27462C;
+  
+}
+
+footer a:hover {
+  font-weight: bold;
+  color: #fff;
+  
 }
 
 .footer-logo {
@@ -88,11 +132,21 @@ background-color: #1D1E18;
 
 code {
   color:#1D1E18;
-  font-weight: 400;
+  font-weight: 300;
 border-radius: 4px;
 background-color: #FFF;
-border: 1px solid rgba(0, 0, 0, 0.1);
+border: 1px solid rgba(0, 0, 0, 0.2);
 display: inline-block;
 font-size: 15px;
+margin-right: 5px;
 padding: .05em .1em .1em;
+transition: .4s ease-in-out;
+
 }
+
+
+code:hover {
+  transition: .4s ease-in-out;
+  color: #248232;
+}
+

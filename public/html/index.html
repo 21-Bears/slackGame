@@ -1,111 +1,125 @@
- <!DOCTYPE html>
- <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-     <meta charset="UTF-8">
-     <title>Round Table Battle</title>
-     <meta name="description" content="DESCRIPTION">
+  <meta charset="UTF-8">
+  <title>Round Table Battle</title>
+  <meta name="description" content="DESCRIPTION">
 
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 
-     <!--[if lt IE 9]>
+  <!--[if lt IE 9]>
        <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
      <![endif]-->
- </head>
+</head>
 
- <body>
-   <div class="jumbotron jumbotron-fluid hero">
-  <div class="container">
+<body>
+  <div class="jumbotron jumbotron-fluid hero">
+    <div class="container">
 
-    <div class = "hero-content">
-    <h1 class="display-3">Round Table Battle</h1>
-    <p class="command-text">Need a diversion from the normal slack conversation? <br/>Want to get your competitive juices flowing?</p>
-    <p class="command-text">Sounds like you need to battle.</p>
-    <p class="command-text">Play an exciting turn-based strategy against another slack team member.</p>
-    <a href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=158522499188.217829987060"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+      <div class="hero-content">
+        <h1 class="display-3">Round Table Battle</h1>
+        <p class="command-text">Need a diversion from the normal slack conversation? <br/>Want to get your competitive juices flowing?</p>
+        <p class="command-text">Sounds like you need to battle.</p>
+        <p class="command-text">Play an exciting turn-based strategy against another slack team member.</p>
+        <a href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=158522499188.217829987060"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+      </div>
+    </div>
   </div>
-</div>
-</div>
-  <div class = "container">
-
-<div class = "screenshot-container">
-
-<img src = "https://bears21.herokuapp.com/assets/screenshot.png">
-</div>
-</div>
-<div class="command-container container-fluid">
   <div class="container">
 
-  <h1>Start Command</h1>
-  <p class="command-text"><code>/rtb</code> <i> start or join a game</i></p>
-  <div class = "screenshot-container">
+    <div class="screenshot-container">
+
+      <img src="https://bears21.herokuapp.com/assets/screenshot.png">
+    </div>
+  </div>
+  <div class="command-container container-fluid">
+    <div class="container">
+
+      <h1>Start Command</h1>
+      <p class="command-text"><code>/rtb</code> <i> start or join a game</i></p>
+      <div class="screenshot-container">
 
 
 
 
-<hr/>
-<div class="how-to-play">
+        <hr/>
+        <div class="how-to-play">
 
-  <h1>Movement Buttons</h1>
+          <h1>Movement Commands</h1>
 
-  <p class="command-text"><code>Counter-clockwise X 2</code> <i> Move counter clockwise two spaces but unable to attack</i></p>
-  <p class="command-text"><code>Counter-clockwise</code> <i>Move counter clockwise one space then attack</i></p>
-  <p class="command-text"><code>Stay</code> <i>Maintain current position and attack</i></p>
- <p class="command-text"><code>Clockwise</code> <i>Move clockwise one space and attack</i></p>
- <p class="command-text"><code>Clockwise X 2</code> <i>Move clockwise two spaces but unable to attack</i></p>
+          <p class="command-text"><code>Counter-clockwise X 2</code> <i> Move counter clockwise two spaces but unable to attack</i></p>
+          <p class="command-text"><code>Counter-clockwise</code> <i>Move counter clockwise one space then attack</i></p>
+          <p class="command-text"><code>Stay</code> <i>Maintain current position and attack</i></p>
+          <p class="command-text"><code>Clockwise</code> <i>Move clockwise one space and attack</i></p>
+          <p class="command-text"><code>Clockwise X 2</code> <i>Move clockwise two spaces but unable to attack</i></p>
 
- <hr/>
+          <hr/>
 
- <h1>Attack Buttons</h1>
- <div class = "command-col">
-  <div class = "command-item">
- <p class="command-text"><code>attackA</code> <i> attack tile directly across from you</i></p>
- <img src = "https://bears21.herokuapp.com/assets/pos_0_attack_a.png"/>
+          <h1>Attack Commands</h1>
+          <div class="command-col">
+            <div class="command-item">
+              <p class="command-text"><code>attackA</code> <i> attack tile directly across from you</i></p>
+              <img src="https://bears21.herokuapp.com/assets/pos_0_attack_a.png" />
 
-</div>
-
-<div class = "command-item">
-
-  <div class = "lead">
- <code>attackB</code>
-  <p>attack the tile five spaces left and right from your location</p>
-</div>
- <img src = "https://bears21.herokuapp.com/assets/pos_0_attack_b.png"/>
-
-</div>
-
- </div>
-
- <div class = "command-col">
-  <div class = "command-item">
- <p class="command-text"><code>attackC</code> <i> attack the tile four spaces left and right from your location</i></p>
- <img src = "https://bears21.herokuapp.com/assets/pos_0_attack_c.png"/>
-
-</div>
-
-<div class = "command-item">
+            </div>
 
 
- <p class="command-text"><code>attackD</code> <i> attack the tile directly on your left and right</i></p>
- <img src = "https://bears21.herokuapp.com/assets/pos_0_attack_d.png"/>
+            <div class="command-col">
 
-</div>
+              <div class="command-item">
+
+                <p class="command-text"><code>attackB</code> <i> attack the tile five spaces left and right from your location</i></p>
+
+                <img src="https://bears21.herokuapp.com/assets/pos_0_attack_b.png" />
+
+              </div>
+            </div>
 
 
-</div>
-</div>
-</div>
-</div>
+            <div class="command-col">
+              <div class="command-item">
+                <p class="command-text"><code>attackC</code> <i> attack the tile four spaces left and right from your location</i></p>
+                <img src="https://bears21.herokuapp.com/assets/pos_0_attack_c.png" />
 
-<footer>
-  <div class = "container">
-  <img class = "footer-logo" src = "https://bears21.herokuapp.com/assets/tempLogo.ico"/>
-  <span>Slack-Game made by <a href = "https://github.com/21-Bears">21 Bears</a> </span>
-</div>
-</footer>
+              </div>
 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- </body>
+              <div class="command-item">
 
- </html>
+
+                <p class="command-text"><code>attackD</code> <i> attack the tile directly on your left and right</i></p>
+                <img src="https://bears21.herokuapp.com/assets/pos_0_attack_d.png" />
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+        <hr/>
+
+
+        <h1>Information Commands</h1>
+
+        <p class="command-text"><code>/topTen </code> <i>Get a list of the top ten best players</i></p>
+        <p class="command-text"><code>myRank</code> <i>See where you rank against the competition</i></p>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <img class="footer-logo" src="https://bears21.herokuapp.com/assets/tempLogo.ico" />
+      <span>Slack-Game made by <a href = "https://github.com/21-Bears">21 Bears</a> </span>
+    </div>
+  </footer>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+
+</html>

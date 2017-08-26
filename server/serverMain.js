@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+
 // Mongoose db setup
 // Remove temporary username / password for production
 var mongoUser = process.env.DB_USERNAME || 'admin';
