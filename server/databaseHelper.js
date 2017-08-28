@@ -17,7 +17,7 @@ var DatabaseHelper = function() {
 
   this.queryDatabaseForUser = function() {
     return new Promise(function(resolve, reject) {
-      leaderboard.find({}).sort({'wins':-1}).exec(function(err, doc) {     
+      leaderboard.find({}).sort({'wins':-1}).exec(function(err, doc) {
         if (err) {
           reject(err);
         } else {
@@ -28,7 +28,7 @@ var DatabaseHelper = function() {
   };
 
   this.processGameEnd = function(UID, name, win, loss) {
-    console.log('Processing game end for user: ' + name)
+    //console.log('Processing game end for user: ' + name)
     this.updateDatabase(UID, win, loss).then((response, error) => {
       if (error) {
         return false;

@@ -100,7 +100,6 @@ var exports = module.exports = {};
  var Message = function( ){
 
   this.send = function( url, msg ){
-    console.log("Send message to URL: "+url);
     request( {
       uri: url,
       method: "POST",

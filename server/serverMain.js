@@ -28,7 +28,7 @@ mongoose.connect(`mongodb://${mongoUser}:${mongoPass}@ds053944.mlab.com:53944/ro
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection eror:"));
 db.once("open", function() {
-  console.log("MongoDB Database connected");
+  //console.log("MongoDB Database connected");
 });
 
 app.get('/',(req,res)=>{
@@ -86,7 +86,7 @@ app.post('/api/',(req,res)=>{
             rank = index + 1;
           }
         })
-        console.log(rank + " " + response.length);
+        //console.log(rank + " " + response.length);
         Message.sendMyRank(req.body.response_url, rank, response.length)
 
       }
@@ -98,7 +98,6 @@ app.post('/api/',(req,res)=>{
   let slackData = {};
  if( req.body.payload ){
    let data = JSON.parse(req.body.payload);
-   console.log( data, typeof(data) );
    slackData = {
    user_name: data.user.name,
    user_id: data.user.id,
@@ -113,35 +112,8 @@ app.post('/api/',(req,res)=>{
                  response_url: req.body.response_url };
  }
 
-//console.log(slackData);
 GameData.runData(slackData);
 res.status(200).send();
 });
-
-app.post('/',(req,res)=>{
-let slackData = { user_name: req.body.user_name,
-              user_id: req.body.user_id,
-              ref_url: req.body.response_url};
-
-
-// res.status(200).send();
-
-res.json(GameData.runData(slackData));
-});
-/*
-slackMessages.action('startGame', (payload) => {
-  let slackData = { user_name: payload.user.name,
-              user_id: payload.user.id,
-              ref_url: payload.response_url,
-              action_name: payload.actions[0].name,
-              action_value: payload.actions[0].value
-            };
-
-//res.status(200).send();
-res.json(GameData.runData(slackData));
-
-});
-
-*/
 
 module.exports = {app};

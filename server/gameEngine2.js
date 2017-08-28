@@ -32,21 +32,6 @@ var GameData = function(){
     },
     "quit": function( data, index ){
       this.removePlayer(data.user_id);
-      /*
-       Message.sendStatic(data.response_url,"goodbye");
-      if(this.rematchCnt === 1){
-        const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
-        const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
-        Message.sendStatic(this.getPlayerURL(activePlayerID),"declinedRematch");
-      }
-      this.players.splice( index, 1 ); //Remove player from players list
-      // if quitting while the only player in a game, remove game
-      if(this.players.length === 0 || this.rematchCnt < 2){
-        this.openGames.pop();
-        this.rematchCnt = 0;
-      }*/
-      //this.openGames = []; //Where did this come from????
-
     },
     "join": function( data, index ){
       const openGamesIndex = this.openGames.findIndex( cv => { return ""+cv.id === data.action_name; } );
@@ -143,7 +128,6 @@ var GameData = function(){
     "stay": function(data){
 
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
-      console.log(activeGamesIndex + '+++++++++++++++++++')
       const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
       const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
       this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
@@ -284,7 +268,6 @@ var GameData = function(){
   };
 
   this.resetData = function(){
-    console.log("......Reseting Game Data.........");
     this.players.forEach( (cv)=>{ Message.sendStatic( cv.callbackURL , "goodbye" ); } );
     this.players = [];
     this.openGames = [];
@@ -311,11 +294,6 @@ var GameData = function(){
       if( index!== -1 ){ //Player found in open game
           this.openGames[index].players.forEach( cv =>{
             if(cv === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
-            /*else {
-              Message.sendStatic( this.getPlayerURL(cv.id), "start" );
-              playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
-              if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
-            }*/
             this.openGames.splice( index, 1 );
             return;
           });
@@ -323,14 +301,9 @@ var GameData = function(){
 
       index = this.activeGames.findIndex( cv => { return cv.players.some( val =>{ return val===id; }) });
       if( index!== -1 ){ //Player found in active Game
-        console.log(" **********!!!!!********* ");
-        console.log(this.activeGames[index].players);
         this.activeGames[index].players.forEach( cv =>{
-          console.log( cv );
           if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
           else {
-            console.log(" -------- Sending active player back to start menu.. ---------");
-            console.log(" ID: "+cv.id+"  / URL: "+this.getPlayerURL(cv.id) );
             Message.sendStatic( this.getPlayerURL(cv), "start" );
             playerIndex = this.players.findIndex( val => { return val.id === cv; } );
             if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
