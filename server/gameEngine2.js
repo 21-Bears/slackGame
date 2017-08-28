@@ -31,6 +31,9 @@ var GameData = function(){
       Message.sendJoinList( data.response_url , jList );
     },
     "quit": function( data, index ){
+      const playerID = this.activeGames[ activeGamesIndex ].getPlayerID(false); //Only non-active player is given exit button
+      this.removePlayer(playerID);
+      /*
        Message.sendStatic(data.response_url,"goodbye");
       if(this.rematchCnt === 1){
         const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
@@ -42,8 +45,8 @@ var GameData = function(){
       if(this.players.length === 0 || this.rematchCnt < 2){
         this.openGames.pop();
         this.rematchCnt = 0;
-      }
-      this.openGames = [];
+      }*/
+      //this.openGames = []; //Where did this come from????
 
     },
     "join": function( data, index ){
@@ -332,7 +335,7 @@ var GameData = function(){
           return;
         });
       }
-
+      //This only runs if the player is not in a game
       playerIndex = this.players.findIndex( val => { return val.id === id; } );
       Message.sendStatic( this.getPlayerURL(id), "goodbye" );
       this.players.splice( playerIndex, 1 );
