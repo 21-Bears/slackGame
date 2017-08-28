@@ -310,7 +310,7 @@ var GameData = function(){
       let playerIndex = -1;
       if( index!== -1 ){ //Player found in open game
           this.openGames[index].players.forEach( cv =>{
-            if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
+            if(cv === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
             /*else {
               Message.sendStatic( this.getPlayerURL(cv.id), "start" );
               playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
@@ -326,13 +326,13 @@ var GameData = function(){
         console.log(" **********!!!!!********* ");
         console.log(this.activeGames[index].players);
         this.activeGames[index].players.forEach( cv =>{
-          console.log( cv.id );
+          console.log( cv );
           if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
           else {
             console.log(" -------- Sending active player back to start menu.. ---------");
             console.log(" ID: "+cv.id+"  / URL: "+this.getPlayerURL(cv.id) );
-            Message.sendStatic( this.getPlayerURL(cv.id), "start" );
-            playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
+            Message.sendStatic( this.getPlayerURL(cv), "start" );
+            playerIndex = this.players.findIndex( val => { return val.id === cv; } );
             if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
           }
         });
