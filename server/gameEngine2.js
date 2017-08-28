@@ -311,21 +311,23 @@ var GameData = function(){
       if( index!== -1 ){ //Player found in open game
           this.openGames[index].players.forEach( cv =>{
             if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
-            else {
+            /*else {
               Message.sendStatic( this.getPlayerURL(cv.id), "start" );
               playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
               if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
-            }
+            }*/
             this.openGames.splice( index, 1 );
             return;
           });
       }
 
       index = this.activeGames.findIndex( cv => { return cv.players.some( val =>{ return val===id; }) });
-      if( index!== -1 ){
+      if( index!== -1 ){ //Player found in active Game
         this.activeGames[index].players.forEach( cv =>{
           if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
           else {
+            console.log(" -------- Sending active player back to start menu.. ---------");
+            console.loh(" ID: "+cv.id+"  / URL: "+this.getPlayerURL(cv.id) );
             Message.sendStatic( this.getPlayerURL(cv.id), "start" );
             playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
             if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
