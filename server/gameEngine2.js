@@ -31,6 +31,7 @@ var GameData = function(){
       Message.sendJoinList( data.response_url , jList );
     },
     "quit": function( data, index ){
+      const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
       const playerID = this.activeGames[ activeGamesIndex ].getPlayerID(false); //Only non-active player is given exit button
       this.removePlayer(playerID);
       /*
