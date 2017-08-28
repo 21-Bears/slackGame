@@ -323,7 +323,10 @@ var GameData = function(){
 
       index = this.activeGames.findIndex( cv => { return cv.players.some( val =>{ return val===id; }) });
       if( index!== -1 ){ //Player found in active Game
+        console.log(" **********!!!!!********* ");
+        console.log(this.activeGames[index].players);
         this.activeGames[index].players.forEach( cv =>{
+          console.log( cv.id );
           if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
           else {
             console.log(" -------- Sending active player back to start menu.. ---------");
