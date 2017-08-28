@@ -327,7 +327,7 @@ var GameData = function(){
           if(cv.id === id){ Message.sendStatic( this.getPlayerURL(id), "goodbye" ); }
           else {
             console.log(" -------- Sending active player back to start menu.. ---------");
-            console.loh(" ID: "+cv.id+"  / URL: "+this.getPlayerURL(cv.id) );
+            console.log(" ID: "+cv.id+"  / URL: "+this.getPlayerURL(cv.id) );
             Message.sendStatic( this.getPlayerURL(cv.id), "start" );
             playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
             if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
