@@ -31,9 +31,7 @@ var GameData = function(){
       Message.sendJoinList( data.response_url , jList );
     },
     "quit": function( data, index ){
-      const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
-      const playerID = this.activeGames[ activeGamesIndex ].getPlayerID(false); //Only non-active player is given exit button
-      this.removePlayer(playerID);
+      this.removePlayer(data.user_id);
       /*
        Message.sendStatic(data.response_url,"goodbye");
       if(this.rematchCnt === 1){
@@ -306,7 +304,7 @@ var GameData = function(){
     return this.players[index].userName;
   }
 
-  this.removePlayer = function(id){ //Use this when a user type /rtb exit
+  this.removePlayer = function(id){ //Use this when a user type '/rtb exit' or clicks exit button
       //1. Check if user is in a openGame
       let index = this.openGames.findIndex( cv => { return cv.players.some( val =>{ return val===id; }) });
       let playerIndex = -1;
