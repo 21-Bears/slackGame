@@ -330,9 +330,9 @@ var GameData = function(){
             playerIndex = this.players.findIndex( val => { return val.id === cv.id; } );
             if(playerIndex!==-1){ this.players[playerIndex].menuState = "init"; }
           }
-          this.activeGames.splice( index, 1 );
-          return;
         });
+        this.activeGames.splice( index, 1 );
+        return;
       }
       //This only runs if the player is not in a game
       playerIndex = this.players.findIndex( val => { return val.id === id; } );
