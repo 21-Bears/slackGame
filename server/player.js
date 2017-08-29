@@ -11,4 +11,5 @@ exports.Player = function( userName, userID, menuState, callbackURL ){
   this.userID = userID;
   this.menuState = menuState;
   this.callbackURL = callbackURL;
+  this.lastActive = Date.now();
 };

@@ -11,7 +11,7 @@ var GameData = function(){
   this.openGames = [];
   this.activeGames = [];
   this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
-
+  this.timerVar = setTimeout(this.clearInactive(),600000);
   this.buttonFunc = {
     "newGame": function(data){
       this.openGames.push( new GameObj( data.user_id, this.idCnt ) );
@@ -267,6 +267,19 @@ var GameData = function(){
 }
   };
 
+  this.clearInactive = function(){
+    const cur = Date.now();
+    this.players.forEach( cv => {
+      if(cv.lastActive - cur > 600000){ //If player has been inactive for more then 10 min
+        this.removePlayer(cv.userID);
+      }
+    });
+    if( this.players.length > 0 ){ //If there are still players on the server
+      this.timerVar = setTimeout(this.clearInactive(),300000); //Restart timer
+    }
+    else{ this.timerVar = null; } //Else( no players ) then clear timer var
+  };
+
   this.resetData = function(){
     this.players.forEach( (cv)=>{ Message.sendStatic( cv.callbackURL , "goodbye" ); } );
     this.players = [];
@@ -328,9 +341,13 @@ var GameData = function(){
         this.players.push( new Player( data.user_name, data.user_id, "init", data.response_url ) );
         //Send init message with "new Game / join game"
         Message.sendStatic(data.response_url,"start");
+        if( this.timerVar === null ){ //if timer is not already running( that only happens if there were no players )
+          this.timerVar = setTimeout(this.clearInactive(),300000); //Startup timer
+        }
         return `success`;
       }
 
+      this.players[ index ].lastActive = Date.now(); //Update timer
       this.players[ index ].callbackURL =  data.response_url; //Update the res_url everytime a new message is recieved
       if( !data.action_value || !this.buttonFunc[ data.action_value ] ) { return "Error"; }
       this.buttonFunc[data.action_value].call( this, data, index );
