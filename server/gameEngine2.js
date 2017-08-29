@@ -11,7 +11,7 @@ var GameData = function(){
   this.openGames = [];
   this.activeGames = [];
   this.idCnt = 0; //This is used to assign each game a unique ID and goes up by one every time a new game is created
-  this.timerVar = setTimeout(this.clearInactive(),600000);
+  this.timerVar = setTimeout( () => { this.clearInactive(); } ,600000);
   this.buttonFunc = {
     "newGame": function(data){
       this.openGames.push( new GameObj( data.user_id, this.idCnt ) );
@@ -275,7 +275,7 @@ var GameData = function(){
       }
     });
     if( this.players.length > 0 ){ //If there are still players on the server
-      this.timerVar = setTimeout(this.clearInactive(),300000); //Restart timer
+      this.timerVar = setTimeout(() => { this.clearInactive(); },300000); //Restart timer
     }
     else{ this.timerVar = null; } //Else( no players ) then clear timer var
   };
@@ -342,7 +342,7 @@ var GameData = function(){
         //Send init message with "new Game / join game"
         Message.sendStatic(data.response_url,"start");
         if( this.timerVar === null ){ //if timer is not already running( that only happens if there were no players )
-          this.timerVar = setTimeout(this.clearInactive(),300000); //Startup timer
+          this.timerVar = setTimeout(() => { this.clearInactive(); },300000); //Startup timer
         }
         return `success`;
       }
