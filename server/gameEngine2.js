@@ -8,8 +8,8 @@ var exports = module.exports = {};
 
 var GameData = function(){
 
-  this.attack; // attack value
-  this.attackRes; // attack Response 
+  //this.attack; // attack value
+  //this.attackRes; // attack Response
   this.players = [];
   this.openGames = [];
   this.activeGames = [];
@@ -64,8 +64,7 @@ var GameData = function(){
     },
     "moveCCW": function(data){
       this.moveFunction(data,false);
-    
-},
+    },
     "moveCW2": function(data){
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
       const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
@@ -110,22 +109,22 @@ var GameData = function(){
       const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
       let activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
       this.activeGames[ activeGamesIndex ].menuState = "results";
-      if(this.attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+attackRes+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.attack.toUpperCase()+ " missed!" ); }
- },
+      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
+        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
+      },
     "attackA": function(data){
-      
+
       this.attackFunction(data,'a');
-},
+    },
     "attackB": function(data){
       this.attackFunction(data,'b');
-},
+    },
     "attackC": function(data){
       this.attackFunction(data,'c');
-},
+    },
     "attackD": function(data){
       this.attackFunction(data,'d');
-},
+    },
     "continue": function(data){
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
       const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
@@ -184,9 +183,7 @@ var GameData = function(){
 
       }
 
-}
-
-
+    }
   };
 
   this.attackFunction = function (data, attackValue){
@@ -195,8 +192,8 @@ var GameData = function(){
         const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
         const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
         const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
-        this.attackRes = this.activeGames[ activeGamesIndex ].runAttack(aValueUpper);
-        
+        this.activeGames[ activeGamesIndex ].attackRes = this.activeGames[ activeGamesIndex ].runAttack(aValueUpper);
+
         if( this.activeGames[ activeGamesIndex ].checkGameOver() ){
 
           DatabaseHelper.processGameEnd(activePlayerID, this.getPlayerName(activePlayerID), 1, 0);
@@ -206,7 +203,7 @@ var GameData = function(){
         }
         //send results message to both players
       this.activeGames[ activeGamesIndex ].menuState = "moveSelect";
-      this.attack = attackValue;
+      this.activeGames[ activeGamesIndex ].attack = attackValue;
       Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
       return;
   }
@@ -218,20 +215,17 @@ var GameData = function(){
       let activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
       this.activeGames[ activeGamesIndex ].menuState = "results";
 
-      if(this.attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+attackRes+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.attack.toUpperCase()+ " missed!" ); }
-      
+      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+attackRes+" damage!" ); }
+        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
+
       //Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.attack.toUpperCase()+ " missed!" );
       const res = this.activeGames[ activeGamesIndex ].movePlayer(clockWise);
-
-    
-
   }
 
   this.clearInactive = function(){
     const cur = Date.now();
     this.players.forEach( cv => {
-      if(cv.lastActive - cur > 600000){ //If player has been inactive for more then 10 min
+      if(cur - cv.lastActive > 600000){ //If player has been inactive for more then 10 min
         this.removePlayer(cv.userID);
       }
     });

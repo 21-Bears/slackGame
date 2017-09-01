@@ -7,6 +7,8 @@ exports.GameObj = function( playerID, gameID ){
   this.players = [ playerID ];
   this.ply1Turn = true; //if ply1Turn then it's this.players[0] turn
   this.menuState = "waiting";
+  this.attackRes = "";
+  this.attack = "";
   this.powerUpPos = -1;
   this.playerData = {
     HP:[ 10, 10 ],
