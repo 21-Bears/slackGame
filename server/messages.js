@@ -90,6 +90,23 @@ let staticMessages = {
                   "value": "quit"
               }]
   }] },
+  "help": {
+    "text": "Help",
+    "attachments": [
+      {
+        "text": "Attack A - does 10 damage to position directly across from you\nAttack B - does 7 damage to positions 3 clockwise and counterclockwise of you\nAttack C - does 7 damage to positions 4 spots clockwise and counterclockwise of you\nAttack D - does 10 damage to positions directly clockwise and counterclockwise of you",
+        "fallback": "You are unable to quit this game!!!",
+          "callback_id": "help",
+          "color": "#3AA3E3",
+          "attachment_type": "default",
+          "actions": [
+              {
+                  "name": "quit_game",
+                  "text": "Exit",
+                  "type": "button",
+                  "value": "quit"
+              }]
+  }] },
   "goodbye":{
     "text": "Thanks for playing Round Table Battle, goodbye."
   }
