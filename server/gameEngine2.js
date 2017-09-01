@@ -215,7 +215,7 @@ var GameData = function(){
       let activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
       this.activeGames[ activeGamesIndex ].menuState = "results";
 
-      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+attackRes+" damage!" ); }
+      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
         else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
 
       //Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.attack.toUpperCase()+ " missed!" );
