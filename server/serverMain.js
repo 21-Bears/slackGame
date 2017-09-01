@@ -50,7 +50,7 @@ app.post('/api/',(req,res)=>{
   }
   if(req.body.text === "help" ){
 
-    res.status(200).send(Message.staticMessage.help);
+    Message.sendHelp(req.body.response_url)
     return;
   }
 
