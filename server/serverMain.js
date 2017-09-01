@@ -48,6 +48,11 @@ app.post('/api/',(req,res)=>{
     res.status(200).send();
     return;
   }
+  if(req.body.text === "help" ){
+
+    res.status(200).send(Message.staticMessage.help);
+    return;
+  }
 
   if(req.body.text === "gameData" ){
     res.status(200).send( JSON.stringify(GameData.activeGames[0]) );
