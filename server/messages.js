@@ -445,16 +445,16 @@ var exports = module.exports = {};
           }]
     };
 
-    this.send( url1, message ); //The player that just attacked/moved
+    this.send( url2, message ); //The player waiting
     message.attachments[0].text = message_text;
-    message.attachments[0].actions.push( { //Add continue button for non-active player
+    message.attachments[0].actions.push( { //Add continue button for active player
       "name": ""+gameID,
       "text": "Continue",
       "type": "button",
       "value": "continue"
      } );
 
-    this.send( url2, message );
+    this.send( url1, message );
   };
 
   
