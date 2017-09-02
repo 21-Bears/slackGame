@@ -108,9 +108,19 @@ var GameData = function(){
       const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
       const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
       let activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
-      this.activeGames[ activeGamesIndex ].menuState = "results";
-      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
+      let nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
+ 
+     // this.activeGames[ activeGamesIndex ].menuState = "results";
+      this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
+      this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
+      const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+
+      Message.sendAttackSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
+      Message.sendStatic(this.getPlayerURL(activePlayerID),"waitingOn");
+
+
+      // if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
+      //   else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
       },
     "attackA": function(data){
 
@@ -130,11 +140,15 @@ var GameData = function(){
       const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
       const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
       const nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
-      this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
-      this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
-      const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
-      Message.sendAttackSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
-      Message.sendStatic(this.getPlayerURL(activePlayerID),"waitingOn");
+      const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);    
+      // this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
+      // this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
+      // const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+      Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
+
+
+      // Message.sendAttackSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
+      // Message.sendStatic(this.getPlayerURL(activePlayerID),"waitingOn");
     },
     "endGame": function(data){
       const activeGamesIndex = this.activeGames.findIndex( cv => { return  ""+cv.id === data.action_name; } );
@@ -204,7 +218,12 @@ var GameData = function(){
         //send results message to both players
       this.activeGames[ activeGamesIndex ].menuState = "moveSelect";
       this.activeGames[ activeGamesIndex ].attack = attackValue;
-      Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
+
+      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
+        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
+
+
+      // Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
       return;
   }
 
@@ -213,13 +232,23 @@ var GameData = function(){
       const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
       const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
       let activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
+      let nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
+      
       this.activeGames[ activeGamesIndex ].menuState = "results";
 
-      if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
-        else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
+      // if(this.activeGames[ activeGamesIndex ].attackRes !== 0 ){ Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Hit for "+this.activeGames[ activeGamesIndex ].attackRes+" damage!" ); }
+      //   else { Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.activeGames[ activeGamesIndex ].attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.activeGames[ activeGamesIndex ].attack.toUpperCase()+ " missed!" ); }
+      const res = this.activeGames[ activeGamesIndex ].movePlayer(clockWise);
+     
+      this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
+      this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
+      const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+
+      Message.sendAttackSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
+      Message.sendStatic(this.getPlayerURL(activePlayerID),"waitingOn");
 
       //Message.sendResults( this.getPlayerURL(activePlayerID), this.getPlayerURL(nonactivePlayerID), activePlayerPos, this.attack, this.activeGames[ activeGamesIndex ].id, "Attack "+ this.attack.toUpperCase()+ " missed!" );
-      const res = this.activeGames[ activeGamesIndex ].movePlayer(clockWise);
+
   }
 
   this.clearInactive = function(){
