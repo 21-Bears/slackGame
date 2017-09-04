@@ -196,8 +196,7 @@ var exports = module.exports = {};
   };
 
   
-
-  this.sendMoveSelect = function( url, pos, gameID, playerData = 10 ){
+this.sendDashSelect = function( url, pos, gameID, playerData = 10 ){
 
     const imageURL =  protocol + '://' + host + '/assets/pos_'+pos+'.png';
     let message = {
@@ -213,27 +212,9 @@ var exports = module.exports = {};
             "actions": [
                   {
                       "name": ""+gameID,
-                      "text": "Conter-Clockwise x2",
+                      "text": "Counter-Clockwise x2",
                       "type": "button",
                       "value": "moveCCW2"
-                  },
-                  {
-                      "name": ""+gameID,
-                      "text": "Conter-Clockwise",
-                      "type": "button",
-                      "value": "moveCCW"
-                  },
-                  {
-                      "name": ""+gameID,
-                      "text": "Stay",
-                      "type": "button",
-                      "value": "stay"
-                  },
-                  {
-                      "name": ""+gameID,
-                      "text": "Clockwise",
-                      "type": "button",
-                      "value": "moveCW"
                   },
                   {
                       "name": ""+gameID,
@@ -241,6 +222,49 @@ var exports = module.exports = {};
                       "type": "button",
                       "value": "moveCW2"
                   }
+            ]
+          } ]
+    };
+    this.send( url, message );
+  }
+
+
+  this.sendMoveSelect = function( url, pos, gameID, playerData = 10 ){
+
+    const imageURL =  protocol + '://' + host + '/assets/pos_'+pos+'.png';
+    let message = {
+      "text": `You have ${playerData} health remaining. Choose your next move:`,
+      "attachments": [
+        {
+            "text" : "Please select one of the following:",
+            "fallback" : "Unable to show moves.",
+            "callback_id": "move_select",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "image_url": imageURL,
+            "actions": [
+
+                  {
+                      "name": ""+gameID,
+                      "text": "Clockwise",
+                      "type": "button",
+                      "value": "moveCW"
+                  },
+                   {
+                      "name": ""+gameID,
+                      "text": "Stay",
+                      "type": "button",
+                      "value": "stay"
+                  },
+
+                  {
+                      "name": ""+gameID,
+                      "text": "Conter-Clockwise",
+                      "type": "button",
+                      "value": "moveCCW"
+                  }
+                 
+
             ]
           } ]
     };
@@ -262,6 +286,12 @@ var exports = module.exports = {};
             "attachment_type": "default",
             "image_url": imageURL,
             "actions": [
+                  {
+                      "name": ""+gameID,
+                      "text": "Dash",
+                      "type": "button",
+                      "value": "dash"
+                  },
                   {
                       "name": ""+gameID,
                       "text": "Attack A",
@@ -445,9 +475,9 @@ var exports = module.exports = {};
           }]
     };
 
-    this.send( url2, message ); //The player waiting
+    this.send( url2, message ); //The player that just attacked/moved
     message.attachments[0].text = message_text;
-    message.attachments[0].actions.push( { //Add continue button for active player
+    message.attachments[0].actions.push( { //Add continue button for non-active player
       "name": ""+gameID,
       "text": "Continue",
       "type": "button",
