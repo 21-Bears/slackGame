@@ -115,9 +115,12 @@ exports.GameObj.prototype.runAttack = function( type ) {
   return "ERROR: invalid type given to runAttack: "+type;
 };
 
-exports.GameObj.prototype.movePlayer = function( clockwise ){
+exports.GameObj.prototype.movePlayer = function( clockwise , dash){
+
   let m = 1;
-  if( !clockwise ){ m = -1; }
+  if(dash)
+    m = 2;
+  if( !clockwise ){ m *= -1; }
   if( this.ply1Turn ){
     if( this.playerData.loc[0] + m !== this.playerData.loc[1] ){
       this.playerData.loc[0] += m;
