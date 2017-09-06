@@ -64,7 +64,8 @@ var GameData = function(){
       const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
       const nonactivePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(false);
       const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);    
-      Message.sendDashSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
+      const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+      Message.sendDashSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData);
 
       
     },
@@ -123,7 +124,9 @@ var GameData = function(){
       // this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
       // this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
       // const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
-      Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id);
+     
+      const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+      Message.sendMoveSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id,playerData);
 
 
       // Message.sendAttackSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
@@ -165,13 +168,14 @@ var GameData = function(){
 
         this.players[ index ].menuState = "inGame";
         activeGame.rand(); //Randomize the inital settings
-        activeGame.playerData.HP= [10,10];
+        activeGame.playerData.HP= [30,30];
         const activePlayerPos = this.activeGames[ activeGamesIndex ].getPlayerPos(true);
         const activePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(true);
         const nonactivePlayerID = this.activeGames[ activeGamesIndex ].getPlayerID(false);
 
+        const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
 
-        Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id );
+        Message.sendAttackSelect( this.getPlayerURL(activePlayerID), activePlayerPos , this.activeGames[ activeGamesIndex ].id ,playerData);
         Message.sendStatic(this.getPlayerURL(nonactivePlayerID),"waitingOn");
 
       }
@@ -228,6 +232,7 @@ var GameData = function(){
       this.activeGames[ activeGamesIndex ].ply1Turn = !this.activeGames[ activeGamesIndex ].ply1Turn;
       this.activeGames[ activeGamesIndex ].menuState = "attackSelect";
       const playerData = this.activeGames[ activeGamesIndex ].ply1Turn ?  this.activeGames[ activeGamesIndex ].playerData.HP[0] : this.activeGames[ activeGamesIndex ].playerData.HP[1]
+
 
       Message.sendAttackSelect( this.getPlayerURL(nonactivePlayerID), nonactivePlayerPos , this.activeGames[ activeGamesIndex ].id, playerData );
       Message.sendStatic(this.getPlayerURL(activePlayerID),"waitingOn");
