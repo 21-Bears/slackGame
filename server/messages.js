@@ -271,12 +271,12 @@ this.sendDashSelect = function( url, pos, gameID, playerData = 10 ){
     this.send( url, message );
   }
 
-  this.sendAttackSelect = function( url, pos, gameID, moveSuccessful = true, powerUp = false){
+  this.sendAttackSelect = function( url, pos, gameID, playerData = 30,moveSuccessful = true, powerUp = false){
     const imageURL = protocol + '://' + host + '/assets/pos_'+pos+'.png';
     let messageText = moveSuccessful ? "Select your attack:" : "Move failed, your opponent occuupies that position. Select your attack:"
     if( powerUp ){ messageText = "You found a Power-up! ( 2 x Damage on next attack ). Select your attack:"; }
     let message = {
-      "text": messageText,
+      "text": `You have ${playerData} health remaining.\n` + messageText,
       "attachments": [
         {
             "text": "Please select one of the following:",
