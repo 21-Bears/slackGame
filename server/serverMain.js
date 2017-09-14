@@ -30,7 +30,11 @@ db.on("error", console.error.bind(console, "connection eror:"));
 db.once("open", function() {
   //console.log("MongoDB Database connected");
 });
-
+app.get('slack/authorization',(req,res)=>{
+  res.status(200).send(JSON.stringify({
+    message: 'Authorization was called'
+  }));
+});
 app.get('/',(req,res)=>{
 	res.sendFile(path.join(__dirname+'./../public/html/index.html')); });
 
