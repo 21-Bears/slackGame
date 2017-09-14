@@ -6,6 +6,8 @@ var mongoose = require("mongoose");
 const {GameData} = require('./gameEngine2');
 var { DatabaseHelper } = require("./databaseHelper.js");
 var { Message } = require("./messages.js");
+const request = require('request');
+
 
 //const { createMessageAdapter } = require('@slack/interactive-messages');
 
@@ -31,9 +33,25 @@ db.once("open", function() {
   //console.log("MongoDB Database connected");
 });
 app.get('/slack/authorization',(req,res)=>{
-  res.status(200).send(JSON.stringify({
-    message: 'Authorization was called'
-  }));
+    var options = {
+        uri: 'https://slack.com/api/oauth.access?code='
+            +req.query.code+
+            '&client_id='+ '158522499188.217829987060'+//process.env.CLIENT_ID+
+            '&client_secret='+ '3a36ac1322f113448a6f23508cef1b69'+//process.env.CLIENT_SECRET+
+            '&redirect_uri='+ 'https://bears21.herokuapp.com/slack/authorization',
+        method: 'GET'
+    }
+    request(options, (error, response, body) => {
+        var JSONresponse = JSON.parse(body)
+        if (!JSONresponse.ok){
+            console.log(JSONresponse)
+            res.send("Error encountered: \n"+JSON.stringify(JSONresponse)).status(200).end()
+        }else{
+            console.log(JSONresponse)
+            res.send("Success!")
+        }
+    })
+
 });
 app.get('/',(req,res)=>{
 	res.sendFile(path.join(__dirname+'./../public/html/index.html')); });
