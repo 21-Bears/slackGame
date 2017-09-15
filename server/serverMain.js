@@ -36,8 +36,8 @@ app.get('/slack/authorization',(req,res)=>{
     var options = {
         uri: 'https://slack.com/api/oauth.access?code='
             +req.query.code+
-            '&client_id='+ '158522499188.217829987060'+//process.env.CLIENT_ID+
-            '&client_secret='+ '3a36ac1322f113448a6f23508cef1b69'+//process.env.CLIENT_SECRET+
+            '&client_id='+ process.env.CLIENT_ID+
+            '&client_secret='+ process.env.CLIENT_SECRET+
             '&redirect_uri='+ 'https://bears21.herokuapp.com/slack/authorization',
         method: 'GET'
     }
